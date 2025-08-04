@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { businessAnalystService } from '../services/businessAnalystService';
 import { BusinessAnalyst, BALevel, CreateBARequest } from '../types';
 import { cn } from '../utils/cn';
@@ -22,21 +22,33 @@ export function BAManagement() {
     setBusinessAnalysts(businessAnalystService.getAll());
   };
 
-  const filteredBAs = businessAnalysts.filter(ba => {
-    const matchesSearch = 
-      ba.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ba.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ba.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ba.department?.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesLevel = levelFilter === 'ALL' || ba.level === levelFilter;
-    
-    const matchesLineManager = lineManagerFilter === 'ALL' || 
-      (lineManagerFilter === ba.lineManagerId) ||
-      (getReportsTree(lineManagerFilter).includes(ba.id));
-    
-    return matchesSearch && matchesLevel && matchesLineManager && ba.isActive;
-  });
+  // Memoized function to get reporting tree
+  const getReportsTree = useMemo(() => {
+    const buildTree = (managerId: string): string[] => {
+      const directReports = businessAnalysts.filter(ba => ba.lineManagerId === managerId).map(ba => ba.id);
+      const indirectReports = directReports.flatMap(reportId => buildTree(reportId));
+      return [...directReports, ...indirectReports];
+    };
+    return buildTree;
+  }, [businessAnalysts]);
+
+  const filteredBAs = useMemo(() => {
+    return businessAnalysts.filter(ba => {
+      const matchesSearch = 
+        ba.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ba.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ba.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ba.department?.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesLevel = levelFilter === 'ALL' || ba.level === levelFilter;
+      
+      const matchesLineManager = lineManagerFilter === 'ALL' || 
+        (lineManagerFilter === ba.lineManagerId) ||
+        (getReportsTree(lineManagerFilter).includes(ba.id));
+      
+      return matchesSearch && matchesLevel && matchesLineManager && ba.isActive;
+    });
+  }, [businessAnalysts, searchTerm, levelFilter, lineManagerFilter, getReportsTree]);
 
   const handleCreateOrUpdate = (data: CreateBARequest) => {
     try {
@@ -66,15 +78,8 @@ export function BAManagement() {
     return manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown';
   };
 
-  // Get all BAs that report to a specific manager (including indirect reports)
-  const getReportsTree = (managerId: string): string[] => {
-    const directReports = businessAnalysts.filter(ba => ba.lineManagerId === managerId).map(ba => ba.id);
-    const indirectReports = directReports.flatMap(reportId => getReportsTree(reportId));
-    return [...directReports, ...indirectReports];
-  };
-
   // Get all unique line managers for the filter dropdown
-  const getLineManagers = () => {
+  const lineManagers = useMemo(() => {
     const managerIds = [...new Set(businessAnalysts
       .map(ba => ba.lineManagerId)
       .filter(id => id !== undefined))];
@@ -86,7 +91,7 @@ export function BAManagement() {
         name: manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown'
       };
     }).sort((a, b) => a.name.localeCompare(b.name));
-  };
+  }, [businessAnalysts]);
 
   const getLevelColor = (level: BALevel) => {
     switch (level) {
@@ -160,7 +165,7 @@ export function BAManagement() {
                 className="px-4 py-3 border border-hippo-light-gray rounded-hippo focus:ring-2 focus:ring-hippo-teal focus:border-hippo-teal transition-all duration-400"
               >
                 <option value="ALL">All Line Managers</option>
-                {getLineManagers().map(manager => (
+                {lineManagers.map(manager => (
                   <option key={manager.id} value={manager.id}>{manager.name} (& their reports)</option>
                 ))}
               </select>
