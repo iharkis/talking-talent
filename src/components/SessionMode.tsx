@@ -453,7 +453,7 @@ export function SessionMode() {
                 </div>
               )}
 
-              <div className="grid md:grid-cols-3 gap-6 mb-6">
+              <div className="space-y-6 mb-6">
                 <div>
                   <div className="flex items-center mb-3">
                     <input

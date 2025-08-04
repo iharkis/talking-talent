@@ -15,9 +15,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { name: 'Dashboard', icon: BarChart3, path: '/dashboard' },
-  { name: 'Session Mode', icon: Play, path: '/session' },
+  { name: 'Talking Talent Session', icon: Play, path: '/session' },
   { name: 'Business Analysts', icon: Users, path: '/bas' },
-  { name: 'Talent Rounds', icon: Calendar, path: '/rounds' },
+  { name: 'Talking Talent Rounds', icon: Calendar, path: '/rounds' },
   { name: 'Reviews', icon: ClipboardList, path: '/reviews' },
   { name: 'History', icon: BarChart3, path: '/history' },
   { name: 'Settings', icon: Settings, path: '/settings' }

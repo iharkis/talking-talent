@@ -303,7 +303,7 @@ function ReviewForm({ ba, round, existingReview, onSubmit, onCancel }: ReviewFor
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="space-y-6">
               <div>
                 <div className="flex items-center mb-2">
                   <input

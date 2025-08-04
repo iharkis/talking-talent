@@ -85,14 +85,14 @@ export function BAManagement() {
         <div className="flex space-x-4">
           <button
             onClick={() => setShowBulkUpload(true)}
-            className="bg-hippo-teal text-hippo-white px-6 py-3 rounded-hippo hover:bg-hippo-teal-hover flex items-center font-medium transition-all duration-400 shadow-md hover:shadow-lg"
+            className="btn-hippo flex items-center"
           >
             <Upload className="h-5 w-5 mr-2" />
             Bulk Upload
           </button>
           <button
             onClick={() => setShowForm(true)}
-            className="bg-hippo-teal text-hippo-white px-6 py-3 rounded-hippo hover:bg-hippo-teal-hover flex items-center font-medium transition-all duration-400 shadow-md hover:shadow-lg"
+            className="btn-hippo flex items-center"
           >
             <Plus className="h-5 w-5 mr-2" />
             Add Business Analyst

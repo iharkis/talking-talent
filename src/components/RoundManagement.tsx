@@ -105,7 +105,7 @@ export function RoundManagement() {
           </div>
         <button
           onClick={() => setShowForm(true)}
-          className="btn-hippo-cta flex items-center"
+          className="btn-hippo flex items-center"
         >
           <Plus className="h-4 w-4 mr-2" />
           Create Round
