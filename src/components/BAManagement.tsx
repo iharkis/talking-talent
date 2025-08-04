@@ -148,9 +148,6 @@ export function BAManagement() {
                   Line Manager
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-hippo-dark-text tracking-wide">
-                  Department
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-hippo-dark-text tracking-wide">
                   Start Date
                 </th>
                 <th className="px-6 py-4 text-right text-sm font-semibold text-hippo-dark-text tracking-wide">
@@ -181,9 +178,6 @@ export function BAManagement() {
                   </td>
                   <td className="px-6 py-5 whitespace-nowrap text-sm text-hippo-dark-text font-medium">
                     {getManagerName(ba.lineManagerId)}
-                  </td>
-                  <td className="px-6 py-5 whitespace-nowrap text-sm text-hippo-dark-text/80">
-                    {ba.department || '-'}
                   </td>
                   <td className="px-6 py-5 whitespace-nowrap text-sm text-hippo-dark-text/80">
                     {ba.startDate ? formatDate(ba.startDate) : '-'}
