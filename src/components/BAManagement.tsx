@@ -74,13 +74,14 @@ export function BAManagement() {
 
   return (
     <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-semibold text-hippo-dark-text">Business Analysts</h1>
-          <p className="mt-2 text-hippo-dark-text/70">
-            Manage your team of business analysts
-          </p>
-        </div>
+      <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-semibold text-hippo-dark-text">Business Analysts</h1>
+            <p className="mt-2 text-hippo-dark-text/70">
+              Manage your team of business analysts
+            </p>
+          </div>
         <div className="flex space-x-4">
           <button
             onClick={() => setShowBulkUpload(true)}
@@ -97,9 +98,10 @@ export function BAManagement() {
             Add Business Analyst
           </button>
         </div>
+        </div>
       </div>
 
-      <div className="bg-hippo-white rounded-hippo shadow-lg border border-hippo-light-gray/30">
+      <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
         <div className="p-6 border-b border-hippo-light-gray/30 space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
@@ -379,7 +381,7 @@ function BAForm({ ba, managers, onSubmit, onCancel }: BAFormProps) {
           </button>
           <button
             onClick={(e) => handleSubmit(e as any)}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+            className="btn-hippo-cta text-sm"
           >
             {ba ? 'Update' : 'Add'} Business Analyst
           </button>
@@ -583,8 +585,8 @@ Mike,Johnson,mike.johnson@company.com,Principal,2023-12-01,Sarah Jones`;
               className={cn(
                 'px-4 py-2 text-sm font-medium rounded-lg',
                 !file || uploading
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-green-600 text-white hover:bg-green-700'
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed px-4 py-2 text-sm rounded-lg'
+                  : 'btn-hippo-cta text-sm'
               )}
             >
               {uploading ? 'Uploading...' : 'Upload'}

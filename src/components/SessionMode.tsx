@@ -204,8 +204,8 @@ export function SessionMode() {
 
   if (activeRounds.length === 0) {
     return (
-      <div className="p-6">
-        <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+      <div>
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-12 text-center">
           <Calendar className="mx-auto h-12 w-12 text-gray-400" />
           <h3 className="mt-4 text-lg font-medium text-gray-900">No Active Rounds</h3>
           <p className="mt-2 text-sm text-gray-500">
@@ -220,16 +220,16 @@ export function SessionMode() {
     const stats = getCompletionStats();
     
     return (
-      <div className="p-6 space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Session Mode</h1>
-          <p className="mt-1 text-sm text-gray-500">
+      <div className="space-y-6">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-6">
+          <h1 className="text-3xl font-semibold text-hippo-dark-text">Session Mode</h1>
+          <p className="mt-2 text-hippo-dark-text/70">
             Streamlined interface for live Talking Talent sessions
           </p>
         </div>
 
         {activeRounds.length > 1 && (
-          <div className="bg-white rounded-lg shadow-sm border p-4">
+          <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Select Active Round
             </label>
@@ -295,7 +295,7 @@ export function SessionMode() {
                     'flex items-center px-6 py-3 rounded-lg font-medium',
                     businessAnalysts.length === 0
                       ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'btn-hippo-cta'
                   )}
                 >
                   <Play className="h-5 w-5 mr-2" />
@@ -355,7 +355,7 @@ export function SessionMode() {
               )}
               <button
                 onClick={saveCurrentReview}
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+                className="btn-hippo-cta flex items-center"
               >
                 <Save className="h-4 w-4 mr-2" />
                 Save

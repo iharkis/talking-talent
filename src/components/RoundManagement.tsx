@@ -94,29 +94,31 @@ export function RoundManagement() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Talent Rounds</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Manage quarterly review rounds and track progress
-          </p>
-        </div>
+    <div className="space-y-6">
+      <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-semibold text-hippo-dark-text">Talent Rounds</h1>
+            <p className="mt-2 text-hippo-dark-text/70">
+              Manage quarterly review rounds and track progress
+            </p>
+          </div>
         <button
           onClick={() => setShowForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+          className="btn-hippo-cta flex items-center"
         >
           <Plus className="h-4 w-4 mr-2" />
           Create Round
         </button>
+        </div>
       </div>
 
       <div className="grid gap-6">
         {rounds.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+          <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-12 text-center">
             <Calendar className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No talent rounds</h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <h3 className="mt-2 text-sm font-medium text-hippo-dark-text">No talent rounds</h3>
+            <p className="mt-1 text-sm text-hippo-dark-text/60">
               Get started by creating your first talent round.
             </p>
           </div>
@@ -127,7 +129,7 @@ export function RoundManagement() {
             const summary = roundSummaries[round.id];
 
             return (
-              <div key={round.id} className="bg-white rounded-lg shadow-sm border">
+              <div key={round.id} className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
@@ -193,7 +195,7 @@ export function RoundManagement() {
                           </button>
                           <button
                             onClick={() => handleActivate(round.id)}
-                            className="bg-blue-600 text-white px-3 py-1 text-sm rounded-lg hover:bg-blue-700"
+                            className="btn-hippo-cta text-sm"
                           >
                             Activate
                           </button>
@@ -207,8 +209,8 @@ export function RoundManagement() {
                           className={cn(
                             'px-3 py-1 text-sm rounded-lg',
                             summary.completionPercentage >= 100
-                              ? 'bg-green-600 text-white hover:bg-green-700'
-                              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                              ? 'btn-hippo-cta'
+                              : 'bg-gray-300 text-gray-500 cursor-not-allowed px-3 py-1 text-sm rounded-lg'
                           )}
                         >
                           Complete Round
@@ -382,13 +384,13 @@ function RoundForm({ round, onSubmit, onCancel }: RoundFormProps) {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg"
+            className="px-4 py-2 text-sm font-medium text-hippo-dark-text bg-hippo-light-gray/50 hover:bg-hippo-light-gray rounded-hippo border border-hippo-light-gray transition-all duration-400"
           >
             Cancel
           </button>
           <button
             onClick={(e) => handleSubmit(e as any)}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+            className="btn-hippo-cta text-sm"
           >
             {round ? 'Update' : 'Create'} Round
           </button>

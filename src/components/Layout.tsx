@@ -28,16 +28,16 @@ export function Layout({ children }: LayoutProps) {
   const currentPath = window.location.pathname;
 
   return (
-    <div className="min-h-screen bg-hippo-light-gray">
+    <div className="min-h-screen bg-hippo-background">
       <div className={cn(
         'fixed inset-y-0 left-0 z-50 w-64 bg-hippo-dark-blue shadow-lg transform transition-transform duration-400 ease-in-out lg:translate-x-0',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
-        <div className="flex items-center justify-between p-6 border-b border-hippo-teal/20">
-          <h1 className="text-xl font-semibold text-hippo-white">Talking Talent</h1>
+        <div className="flex items-center justify-between px-6 py-4 border-b border-hippo-white/20">
+          <h1 className="text-xl font-bold text-hippo-white">Talking Talent</h1>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1 rounded-md hover:bg-hippo-teal/20 text-hippo-white"
+            className="lg:hidden p-1 rounded-md hover:bg-hippo-white/20 text-hippo-white"
           >
             <X className="h-5 w-5" />
           </button>
@@ -53,10 +53,10 @@ export function Layout({ children }: LayoutProps) {
                 key={item.name}
                 href={item.path}
                 className={cn(
-                  'flex items-center px-4 py-3 text-sm font-medium rounded-hippo mb-2 transition-all duration-400',
+                  'flex items-center px-4 py-3 text-sm font-medium rounded-hippo-subtle mb-2 transition-all duration-400',
                   isActive
-                    ? 'bg-hippo-teal text-hippo-white shadow-md'
-                    : 'text-hippo-light-gray hover:bg-hippo-teal/20 hover:text-hippo-white'
+                    ? 'bg-hippo-green text-hippo-white shadow-md'
+                    : 'text-hippo-white/80 hover:bg-hippo-green/20 hover:text-hippo-white'
                 )}
               >
                 <Icon className="mr-3 h-5 w-5" />
@@ -67,9 +67,9 @@ export function Layout({ children }: LayoutProps) {
         </nav>
         
         <div className="absolute bottom-6 left-4 right-4">
-          <div className="bg-hippo-teal/10 p-4 rounded-hippo border border-hippo-teal/20">
-            <p className="text-xs text-hippo-light-gray">Version 1.0</p>
-            <p className="text-xs text-hippo-light-gray">Performance Management System</p>
+          <div className="bg-hippo-green/10 p-4 rounded-hippo-subtle border border-hippo-green/20">
+            <p className="text-xs text-hippo-white/70">Version 1.0</p>
+            <p className="text-xs text-hippo-white/70">Performance Management System</p>
           </div>
         </div>
       </div>
@@ -82,17 +82,17 @@ export function Layout({ children }: LayoutProps) {
       )}
 
       <div className="lg:pl-64">
-        <header className="bg-hippo-white shadow-sm border-b border-hippo-light-gray">
+        <header className="bg-hippo-white shadow-hippo border-b border-hippo-background">
           <div className="flex items-center justify-between px-6 py-4">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-hippo text-hippo-dark-text hover:bg-hippo-light-gray"
+              className="lg:hidden p-2 rounded-hippo-subtle text-hippo-text hover:bg-hippo-background"
             >
               <Menu className="h-5 w-5" />
             </button>
             
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-hippo-dark-text/70 font-medium">
+              <div className="text-sm text-hippo-text/70 font-medium">
                 {new Date().toLocaleDateString('en-GB', { 
                   weekday: 'long', 
                   year: 'numeric', 
@@ -105,7 +105,9 @@ export function Layout({ children }: LayoutProps) {
         </header>
 
         <main className="flex-1 p-6">
-          {children}
+          <div className="max-w-7xl mx-auto">
+            {children}
+          </div>
         </main>
       </div>
     </div>

@@ -115,13 +115,13 @@ export function Settings() {
   const dataCounts = getDataCounts();
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center">
+    <div className="space-y-6">
+      <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-6">
+        <h1 className="text-3xl font-semibold text-hippo-dark-text flex items-center">
           <SettingsIcon className="h-6 w-6 mr-2" />
           Settings
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-2 text-hippo-dark-text/70">
           Manage your application data and preferences
         </p>
       </div>
@@ -137,7 +137,7 @@ export function Settings() {
       )}
 
       <div className="grid gap-6">
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
           <div className="px-6 py-4 border-b">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center">
               <Database className="h-5 w-5 mr-2" />
@@ -166,7 +166,7 @@ export function Settings() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
           <div className="px-6 py-4 border-b">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center">
               <Download className="h-5 w-5 mr-2" />
@@ -179,7 +179,7 @@ export function Settings() {
             </p>
             <button
               onClick={handleExport}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+              className="btn-hippo-cta flex items-center"
             >
               <Download className="h-4 w-4 mr-2" />
               Export Data
@@ -187,7 +187,7 @@ export function Settings() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
           <div className="px-6 py-4 border-b">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center">
               <Upload className="h-5 w-5 mr-2" />
@@ -214,7 +214,7 @@ export function Settings() {
               <button
                 onClick={handleImport}
                 disabled={!importData.trim()}
-                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center"
+                className="btn-hippo-cta flex items-center disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 <Upload className="h-4 w-4 mr-2" />
                 Import Data
@@ -223,7 +223,7 @@ export function Settings() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
           <div className="px-6 py-4 border-b">
             <h3 className="text-lg font-semibold text-gray-900 flex items-center">
               <Database className="h-5 w-5 mr-2" />
@@ -245,7 +245,7 @@ export function Settings() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border border-red-200">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle border border-red-200">
           <div className="px-6 py-4 border-b border-red-200">
             <h3 className="text-lg font-semibold text-red-900 flex items-center">
               <AlertTriangle className="h-5 w-5 mr-2" />

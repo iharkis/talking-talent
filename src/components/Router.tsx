@@ -5,6 +5,7 @@ import { RoundManagement } from './RoundManagement';
 import { ReviewEntry } from './ReviewEntry';
 import { SessionMode } from './SessionMode';
 import { Settings } from './Settings';
+import { HistoricalAnalysis } from './HistoricalAnalysis';
 
 type Route = 'dashboard' | 'bas' | 'rounds' | 'reviews' | 'session' | 'history' | 'settings';
 
@@ -53,7 +54,7 @@ export function Router() {
       case 'session':
         return <SessionMode />;
       case 'history':
-        return <HistoryView />;
+        return <HistoricalAnalysis />;
       case 'settings':
         return <Settings />;
       default:
@@ -64,15 +65,3 @@ export function Router() {
   return renderComponent();
 }
 
-function HistoryView() {
-  return (
-    <div className="p-6">
-      <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
-        <h3 className="text-lg font-medium text-gray-900">Historical Analysis</h3>
-        <p className="mt-2 text-sm text-gray-500">
-          Historical analysis views coming soon...
-        </p>
-      </div>
-    </div>
-  );
-}

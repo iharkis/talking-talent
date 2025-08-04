@@ -1,28 +1,92 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
+/* Hippo Digital Design System Variables */
 :root {
-  /* Hippo Digital Colors */
-  --hippo-dark-blue: #15243D;
-  --hippo-teal: #005E5D; 
-  --hippo-teal-hover: #004C4B;
-  --hippo-light-gray: #DDE4E6;
-  --hippo-dark-text: #0C2340;
-  --hippo-white: #FFFFFF;
-  
-  font-family: 'DM Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  --hippo-dark-blue: #0c2340;
+  --hippo-green: #005e5d;
+  --hippo-green-hover: #004c4b;
+  --hippo-teal: #88dbdf;
+  --hippo-pink: #ffa3b5;
+  --hippo-background: #e5ebf0;
+  --hippo-text: #322947;
+  --hippo-white: #ffffff;
+}
+
+/* Global Styling */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  background-color: var(--hippo-background);
+  color: var(--hippo-text);
+  margin: 0;
+  padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: var(--hippo-light-gray);
-  color: var(--hippo-dark-text);
+/* Ensure proper contrast for readability */
+.bg-hippo-white, .bg-white {
+  background-color: var(--hippo-white) !important;
+  color: var(--hippo-text) !important;
+}
+
+.bg-hippo-dark-blue, .bg-primary {
+  background-color: var(--hippo-dark-blue) !important;
+  color: var(--hippo-white) !important;
+}
+
+.bg-hippo-green, .bg-secondary {
+  background-color: var(--hippo-green) !important;
+  color: var(--hippo-white) !important;
+}
+
+.text-hippo-dark-text, .text-hippo-text {
+  color: var(--hippo-text) !important;
+}
+
+.text-hippo-white {
+  color: var(--hippo-white) !important;
+}
+
+/* Button Styling */
+.btn-hippo {
+  background: var(--hippo-green);
+  color: var(--hippo-white);
+  border: 1px solid var(--hippo-green);
+  padding: 12px 24px;
+  border-radius: 28px;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-hippo:hover {
+  background: var(--hippo-green-hover);
+  border-color: var(--hippo-green-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 94, 93, 0.3);
+}
+
+/* Card Styling */
+.card-hippo {
+  background: var(--hippo-white);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hippo:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }

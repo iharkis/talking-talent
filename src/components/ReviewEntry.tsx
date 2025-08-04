@@ -80,11 +80,11 @@ export function ReviewEntry() {
 
   if (activeRounds.length === 0) {
     return (
-      <div className="p-6">
-        <div className="bg-white rounded-lg shadow-sm border p-12 text-center">
+      <div>
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-12 text-center">
           <Calendar className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-4 text-lg font-medium text-gray-900">No Active Rounds</h3>
-          <p className="mt-2 text-sm text-gray-500">
+          <h3 className="mt-4 text-lg font-medium text-hippo-dark-text">No Active Rounds</h3>
+          <p className="mt-2 text-sm text-hippo-dark-text/60">
             You need to create and activate a talent round before you can enter reviews.
           </p>
         </div>
@@ -93,16 +93,16 @@ export function ReviewEntry() {
   }
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Review Entry</h1>
-        <p className="mt-1 text-sm text-gray-500">
+    <div className="space-y-6">
+      <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-6">
+        <h1 className="text-3xl font-semibold text-hippo-dark-text">Review Entry</h1>
+        <p className="mt-2 text-hippo-dark-text/70">
           Enter individual reviews for business analysts
         </p>
       </div>
 
       {activeRounds.length > 1 && (
-        <div className="bg-white rounded-lg shadow-sm border p-4">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Select Active Round
           </label>
@@ -148,7 +148,7 @@ export function ReviewEntry() {
                   <div
                     key={ba.id}
                     className={cn(
-                      'border rounded-lg p-4 cursor-pointer transition-all hover:shadow-sm',
+                      'bg-hippo-light-gray/20 rounded-hippo-subtle p-4 cursor-pointer transition-all hover:shadow-sm',
                       getStatusColor(status),
                       selectedBA?.id === ba.id ? 'ring-2 ring-blue-500' : ''
                     )}
@@ -475,7 +475,7 @@ function ReviewForm({ ba, round, existingReview, onSubmit, onCancel }: ReviewFor
                   <button
                     type="button"
                     onClick={addAction}
-                    className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700"
+                    className="btn-hippo-cta p-2"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -508,7 +508,7 @@ function ReviewForm({ ba, round, existingReview, onSubmit, onCancel }: ReviewFor
           </button>
           <button
             onClick={(e) => handleSubmit(e as any)}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+            className="btn-hippo-cta text-sm"
           >
             Save Review
           </button>
