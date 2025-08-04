@@ -1,7 +1,16 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* Hippo Digital Colors */
+  --hippo-dark-blue: #15243D;
+  --hippo-teal: #005E5D; 
+  --hippo-teal-hover: #004C4B;
+  --hippo-light-gray: #DDE4E6;
+  --hippo-dark-text: #0C2340;
+  --hippo-white: #FFFFFF;
+  
+  font-family: 'DM Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -14,4 +23,6 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--hippo-light-gray);
+  color: var(--hippo-dark-text);
 }

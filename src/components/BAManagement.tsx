@@ -63,60 +63,60 @@ export function BAManagement() {
 
   const getLevelColor = (level: BALevel) => {
     switch (level) {
-      case BALevel.PRINCIPAL: return 'bg-purple-100 text-purple-800';
-      case BALevel.LEAD: return 'bg-blue-100 text-blue-800';
-      case BALevel.SENIOR: return 'bg-green-100 text-green-800';
-      case BALevel.INTERMEDIATE: return 'bg-yellow-100 text-yellow-800';
-      case BALevel.CONSULTANT: return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case BALevel.PRINCIPAL: return 'bg-hippo-teal/20 text-hippo-teal border border-hippo-teal/30';
+      case BALevel.LEAD: return 'bg-hippo-dark-blue/10 text-hippo-dark-blue border border-hippo-dark-blue/20';
+      case BALevel.SENIOR: return 'bg-green-100 text-green-800 border border-green-200';
+      case BALevel.INTERMEDIATE: return 'bg-orange-100 text-orange-800 border border-orange-200';
+      case BALevel.CONSULTANT: return 'bg-hippo-light-gray/50 text-hippo-dark-text border border-hippo-light-gray';
+      default: return 'bg-hippo-light-gray/50 text-hippo-dark-text border border-hippo-light-gray';
     }
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Business Analysts</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-3xl font-semibold text-hippo-dark-text">Business Analysts</h1>
+          <p className="mt-2 text-hippo-dark-text/70">
             Manage your team of business analysts
           </p>
         </div>
-        <div className="flex space-x-3">
+        <div className="flex space-x-4">
           <button
             onClick={() => setShowBulkUpload(true)}
-            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center"
+            className="bg-hippo-teal text-hippo-white px-6 py-3 rounded-hippo hover:bg-hippo-teal-hover flex items-center font-medium transition-all duration-400 shadow-md hover:shadow-lg"
           >
-            <Upload className="h-4 w-4 mr-2" />
+            <Upload className="h-5 w-5 mr-2" />
             Bulk Upload
           </button>
           <button
             onClick={() => setShowForm(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+            className="bg-hippo-teal text-hippo-white px-6 py-3 rounded-hippo hover:bg-hippo-teal-hover flex items-center font-medium transition-all duration-400 shadow-md hover:shadow-lg"
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-5 w-5 mr-2" />
             Add Business Analyst
           </button>
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border">
-        <div className="p-4 border-b space-y-4">
+      <div className="bg-hippo-white rounded-hippo shadow-lg border border-hippo-light-gray/30">
+        <div className="p-6 border-b border-hippo-light-gray/30 space-y-4">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-hippo-dark-text/40" />
               <input
                 type="text"
                 placeholder="Search by name, email, or department..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-hippo-light-gray rounded-hippo focus:ring-2 focus:ring-hippo-teal focus:border-hippo-teal transition-all duration-400"
               />
             </div>
             <div>
               <select
                 value={levelFilter}
                 onChange={(e) => setLevelFilter(e.target.value as BALevel | 'ALL')}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-3 border border-hippo-light-gray rounded-hippo focus:ring-2 focus:ring-hippo-teal focus:border-hippo-teal transition-all duration-400"
               >
                 <option value="ALL">All Levels</option>
                 {Object.values(BALevel).map(level => (
@@ -126,80 +126,80 @@ export function BAManagement() {
             </div>
           </div>
           
-          <div className="flex items-center text-sm text-gray-600">
-            <Users className="h-4 w-4 mr-1" />
+          <div className="flex items-center text-sm text-hippo-dark-text/70 font-medium">
+            <Users className="h-4 w-4 mr-2" />
             Showing {filteredBAs.length} of {businessAnalysts.filter(ba => ba.isActive).length} active business analysts
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-hippo-light-gray/30">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-hippo-dark-text tracking-wide">
                   Name & Email
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-hippo-dark-text tracking-wide">
                   Level
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-hippo-dark-text tracking-wide">
                   Line Manager
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-hippo-dark-text tracking-wide">
                   Department
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-hippo-dark-text tracking-wide">
                   Start Date
                 </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-4 text-right text-sm font-semibold text-hippo-dark-text tracking-wide">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-hippo-white divide-y divide-hippo-light-gray/30">
               {filteredBAs.map((ba) => (
-                <tr key={ba.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
+                <tr key={ba.id} className="hover:bg-hippo-light-gray/20 transition-colors duration-400">
+                  <td className="px-6 py-5 whitespace-nowrap">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">
+                      <div className="text-sm font-semibold text-hippo-dark-text">
                         {ba.firstName} {ba.lastName}
                       </div>
                       {ba.email && (
-                        <div className="text-sm text-gray-500">{ba.email}</div>
+                        <div className="text-sm text-hippo-dark-text/60">{ba.email}</div>
                       )}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-5 whitespace-nowrap">
                     <span className={cn(
-                      'inline-flex px-2 py-1 text-xs font-semibold rounded-full',
+                      'inline-flex px-3 py-1 text-xs font-semibold rounded-hippo',
                       getLevelColor(ba.level)
                     )}>
                       {ba.level}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-5 whitespace-nowrap text-sm text-hippo-dark-text font-medium">
                     {getManagerName(ba.lineManagerId)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-5 whitespace-nowrap text-sm text-hippo-dark-text/80">
                     {ba.department || '-'}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-6 py-5 whitespace-nowrap text-sm text-hippo-dark-text/80">
                     {ba.startDate ? formatDate(ba.startDate) : '-'}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-6 py-5 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end space-x-2">
                       <button
                         onClick={() => {
                           setEditingBA(ba);
                           setShowForm(true);
                         }}
-                        className="text-blue-600 hover:text-blue-900 p-1"
+                        className="text-hippo-teal hover:text-hippo-teal-hover p-2 rounded-hippo hover:bg-hippo-teal/10 transition-all duration-400"
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDeactivate(ba.id)}
-                        className="text-red-600 hover:text-red-900 p-1"
+                        className="text-red-600 hover:text-red-800 p-2 rounded-hippo hover:bg-red-50 transition-all duration-400"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

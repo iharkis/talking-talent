@@ -28,22 +28,22 @@ export function Layout({ children }: LayoutProps) {
   const currentPath = window.location.pathname;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-hippo-light-gray">
       <div className={cn(
-        'fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-200 ease-in-out lg:translate-x-0',
+        'fixed inset-y-0 left-0 z-50 w-64 bg-hippo-dark-blue shadow-lg transform transition-transform duration-400 ease-in-out lg:translate-x-0',
         sidebarOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
-        <div className="flex items-center justify-between p-4 border-b">
-          <h1 className="text-xl font-bold text-gray-900">Talking Talent</h1>
+        <div className="flex items-center justify-between p-6 border-b border-hippo-teal/20">
+          <h1 className="text-xl font-semibold text-hippo-white">Talking Talent</h1>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1 rounded-md hover:bg-gray-100"
+            className="lg:hidden p-1 rounded-md hover:bg-hippo-teal/20 text-hippo-white"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
         
-        <nav className="mt-4 px-2">
+        <nav className="mt-6 px-4">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentPath === item.path || (currentPath === '/' && item.path === '/dashboard');
@@ -53,10 +53,10 @@ export function Layout({ children }: LayoutProps) {
                 key={item.name}
                 href={item.path}
                 className={cn(
-                  'flex items-center px-3 py-2 text-sm font-medium rounded-md mb-1 transition-colors',
+                  'flex items-center px-4 py-3 text-sm font-medium rounded-hippo mb-2 transition-all duration-400',
                   isActive
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-hippo-teal text-hippo-white shadow-md'
+                    : 'text-hippo-light-gray hover:bg-hippo-teal/20 hover:text-hippo-white'
                 )}
               >
                 <Icon className="mr-3 h-5 w-5" />
@@ -66,33 +66,33 @@ export function Layout({ children }: LayoutProps) {
           })}
         </nav>
         
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="bg-gray-50 p-3 rounded-md">
-            <p className="text-xs text-gray-500">Version 1.0</p>
-            <p className="text-xs text-gray-500">Performance Management System</p>
+        <div className="absolute bottom-6 left-4 right-4">
+          <div className="bg-hippo-teal/10 p-4 rounded-hippo border border-hippo-teal/20">
+            <p className="text-xs text-hippo-light-gray">Version 1.0</p>
+            <p className="text-xs text-hippo-light-gray">Performance Management System</p>
           </div>
         </div>
       </div>
 
       {sidebarOpen && (
         <div 
-          className="fixed inset-0 z-40 bg-black bg-opacity-25 lg:hidden"
+          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       <div className="lg:pl-64">
-        <header className="bg-white shadow-sm border-b">
-          <div className="flex items-center justify-between px-4 py-3">
+        <header className="bg-hippo-white shadow-sm border-b border-hippo-light-gray">
+          <div className="flex items-center justify-between px-6 py-4">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100"
+              className="lg:hidden p-2 rounded-hippo text-hippo-dark-text hover:bg-hippo-light-gray"
             >
               <Menu className="h-5 w-5" />
             </button>
             
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-hippo-dark-text/70 font-medium">
                 {new Date().toLocaleDateString('en-GB', { 
                   weekday: 'long', 
                   year: 'numeric', 
@@ -104,7 +104,7 @@ export function Layout({ children }: LayoutProps) {
           </div>
         </header>
 
-        <main className="flex-1">
+        <main className="flex-1 p-6">
           {children}
         </main>
       </div>
