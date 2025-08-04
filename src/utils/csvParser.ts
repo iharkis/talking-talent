@@ -94,11 +94,12 @@ export function parseCSV(csvContent: string): CSVParseResult {
     // Validate start date format if provided
     let startDate: Date | undefined;
     if (row.startdate) {
-      startDate = parseDate(row.startdate);
-      if (!startDate) {
+      const parsedDate = parseDate(row.startdate);
+      if (!parsedDate) {
         errors.push(`Row ${rowNumber}: Invalid date format "${row.startdate}". Use YYYY-MM-DD format`);
         continue;
       }
+      startDate = parsedDate;
     }
 
     // Store line manager name for later resolution
