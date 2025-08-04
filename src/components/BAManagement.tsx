@@ -11,6 +11,7 @@ export function BAManagement() {
   const [editingBA, setEditingBA] = useState<BusinessAnalyst | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [levelFilter, setLevelFilter] = useState<BALevel | 'ALL'>('ALL');
+  const [lineManagerFilter, setLineManagerFilter] = useState<'ALL' | string>('ALL');
   const [showBulkUpload, setShowBulkUpload] = useState(false);
 
   useEffect(() => {
@@ -30,7 +31,11 @@ export function BAManagement() {
     
     const matchesLevel = levelFilter === 'ALL' || ba.level === levelFilter;
     
-    return matchesSearch && matchesLevel && ba.isActive;
+    const matchesLineManager = lineManagerFilter === 'ALL' || 
+      (lineManagerFilter === ba.lineManagerId) ||
+      (getReportsTree(lineManagerFilter).includes(ba.id));
+    
+    return matchesSearch && matchesLevel && matchesLineManager && ba.isActive;
   });
 
   const handleCreateOrUpdate = (data: CreateBARequest) => {
@@ -59,6 +64,28 @@ export function BAManagement() {
     if (!managerId) return 'None';
     const manager = businessAnalysts.find(ba => ba.id === managerId);
     return manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown';
+  };
+
+  // Get all BAs that report to a specific manager (including indirect reports)
+  const getReportsTree = (managerId: string): string[] => {
+    const directReports = businessAnalysts.filter(ba => ba.lineManagerId === managerId).map(ba => ba.id);
+    const indirectReports = directReports.flatMap(reportId => getReportsTree(reportId));
+    return [...directReports, ...indirectReports];
+  };
+
+  // Get all unique line managers for the filter dropdown
+  const getLineManagers = () => {
+    const managerIds = [...new Set(businessAnalysts
+      .map(ba => ba.lineManagerId)
+      .filter(id => id !== undefined))];
+    
+    return managerIds.map(id => {
+      const manager = businessAnalysts.find(ba => ba.id === id);
+      return {
+        id: id!,
+        name: manager ? `${manager.firstName} ${manager.lastName}` : 'Unknown'
+      };
+    }).sort((a, b) => a.name.localeCompare(b.name));
   };
 
   const getLevelColor = (level: BALevel) => {
@@ -123,6 +150,18 @@ export function BAManagement() {
                 <option value="ALL">All Levels</option>
                 {Object.values(BALevel).map(level => (
                   <option key={level} value={level}>{level}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <select
+                value={lineManagerFilter}
+                onChange={(e) => setLineManagerFilter(e.target.value)}
+                className="px-4 py-3 border border-hippo-light-gray rounded-hippo focus:ring-2 focus:ring-hippo-teal focus:border-hippo-teal transition-all duration-400"
+              >
+                <option value="ALL">All Line Managers</option>
+                {getLineManagers().map(manager => (
+                  <option key={manager.id} value={manager.id}>{manager.name} (& their reports)</option>
                 ))}
               </select>
             </div>
