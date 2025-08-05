@@ -76,6 +76,10 @@ export const validateReviewData = (data: CreateReviewRequest): string[] => {
     errors.push('Development opportunities details are required when opportunities are indicated');
   }
   
+  if (data.retentionConcerns.hasIssues && !data.retentionConcerns.details?.trim()) {
+    errors.push('Retention concerns details are required when issues are indicated');
+  }
+  
   return errors;
 };
 
