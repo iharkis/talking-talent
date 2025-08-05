@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { cn } from '../utils/cn';
 import { Users, Calendar, ClipboardList, BarChart3, Settings, Menu, X, Play } from 'lucide-react';
 
@@ -49,7 +49,28 @@ const navSections: NavSection[] = [
 
 export function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const currentPath = window.location.pathname;
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePathChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    // Listen for popstate events (back/forward buttons)
+    window.addEventListener('popstate', handlePathChange);
+    
+    // Also listen for pushstate events (programmatic navigation)
+    const originalPushState = window.history.pushState;
+    window.history.pushState = function(...args) {
+      originalPushState.apply(window.history, args);
+      handlePathChange();
+    };
+
+    return () => {
+      window.removeEventListener('popstate', handlePathChange);
+      window.history.pushState = originalPushState;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-hippo-background">
@@ -77,7 +98,10 @@ export function Layout({ children }: LayoutProps) {
               )}
               {section.items.map((item) => {
                 const Icon = item.icon;
-                const isActive = currentPath === item.path || (currentPath === '/' && item.path === '/dashboard');
+                // Handle path matching more robustly
+                const currentRoute = currentPath === '/' ? 'dashboard' : currentPath.substring(1);
+                const itemRoute = item.path.substring(1);
+                const isActive = currentRoute === itemRoute;
                 
                 return (
                   <a
