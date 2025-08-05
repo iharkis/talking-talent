@@ -13,14 +13,38 @@ interface NavItem {
   active?: boolean;
 }
 
-const navItems: NavItem[] = [
-  { name: 'Dashboard', icon: BarChart3, path: '/dashboard' },
-  { name: 'Talking Talent Session', icon: Play, path: '/session' },
-  { name: 'Business Analysts', icon: Users, path: '/bas' },
-  { name: 'Talking Talent Rounds', icon: Calendar, path: '/rounds' },
-  { name: 'Reviews', icon: ClipboardList, path: '/reviews' },
-  { name: 'History', icon: BarChart3, path: '/history' },
-  { name: 'Settings', icon: Settings, path: '/settings' }
+interface NavSection {
+  title?: string;
+  items: NavItem[];
+}
+
+const navSections: NavSection[] = [
+  {
+    items: [
+      { name: 'Dashboard', icon: BarChart3, path: '/dashboard' }
+    ]
+  },
+  {
+    title: 'Planning & Setup',
+    items: [
+      { name: 'Business Analysts', icon: Users, path: '/bas' },
+      { name: 'Talking Talent Rounds', icon: Calendar, path: '/rounds' }
+    ]
+  },
+  {
+    title: 'Reviews',
+    items: [
+      { name: 'Talking Talent Session', icon: Play, path: '/session' },
+      { name: 'Reviews', icon: ClipboardList, path: '/reviews' }
+    ]
+  },
+  {
+    title: 'History & Settings',
+    items: [
+      { name: 'History', icon: BarChart3, path: '/history' },
+      { name: 'Settings', icon: Settings, path: '/settings' }
+    ]
+  }
 ];
 
 export function Layout({ children }: LayoutProps) {
@@ -44,26 +68,35 @@ export function Layout({ children }: LayoutProps) {
         </div>
         
         <nav className="mt-6 px-4">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = currentPath === item.path || (currentPath === '/' && item.path === '/dashboard');
-            
-            return (
-              <a
-                key={item.name}
-                href={item.path}
-                className={cn(
-                  'flex items-center px-4 py-3 text-sm font-medium rounded-hippo-subtle mb-2 transition-all duration-400',
-                  isActive
-                    ? 'bg-hippo-green text-hippo-white shadow-md'
-                    : 'text-hippo-white/80 hover:bg-hippo-green/20 hover:text-hippo-white'
-                )}
-              >
-                <Icon className="mr-3 h-5 w-5" />
-                {item.name}
-              </a>
-            );
-          })}
+          {navSections.map((section, sectionIndex) => (
+            <div key={sectionIndex} className={cn(sectionIndex > 0 && 'mt-6')}>
+              {section.title && (
+                <h3 className="text-xs font-semibold text-hippo-white/60 uppercase tracking-wider mb-3 px-4">
+                  {section.title}
+                </h3>
+              )}
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPath === item.path || (currentPath === '/' && item.path === '/dashboard');
+                
+                return (
+                  <a
+                    key={item.name}
+                    href={item.path}
+                    className={cn(
+                      'flex items-center px-4 py-3 text-sm font-medium rounded-hippo-subtle mb-2 transition-all duration-400',
+                      isActive
+                        ? 'bg-hippo-green text-hippo-white shadow-md'
+                        : 'text-hippo-white/80 hover:bg-hippo-green/20 hover:text-hippo-white'
+                    )}
+                  >
+                    <Icon className="mr-3 h-5 w-5" />
+                    {item.name}
+                  </a>
+                );
+              })}
+            </div>
+          ))}
         </nav>
         
         <div className="absolute bottom-6 left-4 right-4">

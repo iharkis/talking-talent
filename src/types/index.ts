@@ -69,9 +69,16 @@ export interface Review {
     hasOpportunities: boolean;
     details?: string;
   };
+  retentionConcerns: {
+    hasIssues: boolean;
+    details?: string;
+  };
   promotionReadiness: PromotionReadiness;
+  promotionTimeframe?: string;
   actions: string[];
   generalNotes?: string;
+  reviewNotes?: string;
+  recommendations?: string[];
   isComplete: boolean;
   completedAt?: Date;
   createdAt: Date;
@@ -112,7 +119,12 @@ export interface CreateReviewRequest {
     hasOpportunities: boolean;
     details?: string;
   };
+  retentionConcerns: {
+    hasIssues: boolean;
+    details?: string;
+  };
   promotionReadiness: PromotionReadiness;
+  promotionTimeframe?: string;
   actions?: string[];
   generalNotes?: string;
 }
@@ -177,7 +189,7 @@ export interface ReviewService {
   getAll(): Review[];
   getById(id: string): Review | null;
   create(data: CreateReviewRequest): Review;
-  update(id: string, data: Partial<CreateReviewRequest>): Review | null;
+  update(id: string, data: Partial<CreateReviewRequest & { reviewNotes?: string; recommendations?: string[] }>): Review | null;
   getByRound(roundId: string): Review[];
   getByBA(baId: string): Review[];
   getByBAAndRound(baId: string, roundId: string): Review | null;

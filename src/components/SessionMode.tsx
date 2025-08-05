@@ -84,7 +84,9 @@ export function SessionMode() {
         wellbeingConcerns: existingReview.wellbeingConcerns,
         performanceConcerns: existingReview.performanceConcerns,
         developmentOpportunities: existingReview.developmentOpportunities,
+        retentionConcerns: existingReview.retentionConcerns,
         promotionReadiness: existingReview.promotionReadiness,
+        promotionTimeframe: existingReview.promotionTimeframe,
         actions: existingReview.actions,
         generalNotes: existingReview.generalNotes
       });
@@ -95,6 +97,7 @@ export function SessionMode() {
         wellbeingConcerns: { hasIssues: false },
         performanceConcerns: { hasIssues: false },
         developmentOpportunities: { hasOpportunities: false },
+        retentionConcerns: { hasIssues: false },
         promotionReadiness: PromotionReadiness.NOT_READY,
         actions: [],
         generalNotes: ''
@@ -454,189 +457,217 @@ export function SessionMode() {
               )}
 
               <div className="space-y-6 mb-6">
-                <div>
-                  <div className="flex items-center mb-3">
-                    <input
-                      type="checkbox"
-                      checked={currentFormData.wellbeingConcerns.hasIssues}
-                      onChange={(e) => updateFormData({
-                        wellbeingConcerns: {
-                          ...currentFormData.wellbeingConcerns,
-                          hasIssues: e.target.checked,
-                          details: e.target.checked ? currentFormData.wellbeingConcerns.details : undefined
-                        }
-                      })}
-                      className="mr-3 h-4 w-4"
-                    />
-                    <label className="font-medium text-gray-900">
-                      Wellbeing Concerns
-                    </label>
-                  </div>
-                  {currentFormData.wellbeingConcerns.hasIssues && (
-                    <textarea
-                      value={currentFormData.wellbeingConcerns.details || ''}
-                      onChange={(e) => updateFormData({
-                        wellbeingConcerns: {
-                          ...currentFormData.wellbeingConcerns,
-                          details: e.target.value
-                        }
-                      })}
-                      placeholder="Describe concerns..."
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  )}
-                </div>
-
-                <div>
-                  <div className="flex items-center mb-3">
-                    <input
-                      type="checkbox"
-                      checked={currentFormData.performanceConcerns.hasIssues}
-                      onChange={(e) => updateFormData({
-                        performanceConcerns: {
-                          ...currentFormData.performanceConcerns,
-                          hasIssues: e.target.checked,
-                          details: e.target.checked ? currentFormData.performanceConcerns.details : undefined
-                        }
-                      })}
-                      className="mr-3 h-4 w-4"
-                    />
-                    <label className="font-medium text-gray-900">
-                      Performance Concerns
-                    </label>
-                  </div>
-                  {currentFormData.performanceConcerns.hasIssues && (
-                    <textarea
-                      value={currentFormData.performanceConcerns.details || ''}
-                      onChange={(e) => updateFormData({
-                        performanceConcerns: {
-                          ...currentFormData.performanceConcerns,
-                          details: e.target.value
-                        }
-                      })}
-                      placeholder="Describe concerns..."
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  )}
-                </div>
-
-                <div>
-                  <div className="flex items-center mb-3">
-                    <input
-                      type="checkbox"
-                      checked={currentFormData.developmentOpportunities.hasOpportunities}
-                      onChange={(e) => updateFormData({
-                        developmentOpportunities: {
-                          ...currentFormData.developmentOpportunities,
-                          hasOpportunities: e.target.checked,
-                          details: e.target.checked ? currentFormData.developmentOpportunities.details : undefined
-                        }
-                      })}
-                      className="mr-3 h-4 w-4"
-                    />
-                    <label className="font-medium text-gray-900">
-                      Development Opportunities
-                    </label>
-                  </div>
-                  {currentFormData.developmentOpportunities.hasOpportunities && (
-                    <textarea
-                      value={currentFormData.developmentOpportunities.details || ''}
-                      onChange={(e) => updateFormData({
-                        developmentOpportunities: {
-                          ...currentFormData.developmentOpportunities,
-                          details: e.target.value
-                        }
-                      })}
-                      placeholder="Describe opportunities..."
-                      rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label className="block font-medium text-gray-900 mb-3">
-                  Promotion Readiness
-                </label>
-                <div className="flex flex-wrap gap-4">
-                  {Object.values(PromotionReadiness).map(readiness => (
-                    <label key={readiness} className="flex items-center">
-                      <input
-                        type="radio"
-                        name="promotionReadiness"
-                        value={readiness}
-                        checked={currentFormData.promotionReadiness === readiness}
-                        onChange={(e) => updateFormData({
-                          promotionReadiness: e.target.value as PromotionReadiness
-                        })}
-                        className="mr-2"
-                      />
-                      <span className="text-gray-700">{readiness}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mb-6">
-                <label className="block font-medium text-gray-900 mb-3">
-                  Action Items
-                </label>
-                <div className="space-y-2 mb-3">
-                  {(currentFormData.actions || []).map((action, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <input
-                        type="text"
-                        value={action}
-                        onChange={(e) => {
-                          const newActions = [...(currentFormData.actions || [])];
-                          newActions[index] = e.target.value;
-                          updateFormData({ actions: newActions });
-                        }}
-                        className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeAction(index)}
-                        className="text-red-600 hover:text-red-800 p-1"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <label className="block font-medium text-gray-900 mb-3">
+                    Review Data
+                  </label>
+                  <div className="space-y-4">
+                    <div>
+                      <div className="flex items-center mb-2">
+                        <input
+                          type="checkbox"
+                          checked={currentFormData.wellbeingConcerns.hasIssues}
+                          disabled
+                          className="mr-3 h-4 w-4 opacity-60"
+                        />
+                        <span className="font-medium text-gray-700">Wellbeing Concerns</span>
+                      </div>
+                      {currentFormData.wellbeingConcerns.hasIssues && (
+                        <div className="ml-7 p-3 bg-white border border-gray-200 rounded-lg text-gray-700">
+                          {currentFormData.wellbeingConcerns.details || 'No details provided'}
+                        </div>
+                      )}
                     </div>
-                  ))}
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="text"
-                    value={newAction}
-                    onChange={(e) => setNewAction(e.target.value)}
-                    placeholder="Add action item..."
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addAction())}
-                  />
-                  <button
-                    type="button"
-                    onClick={addAction}
-                    className="bg-gray-100 text-gray-700 p-2 rounded-lg hover:bg-gray-200"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </button>
+
+                    <div>
+                      <div className="flex items-center mb-2">
+                        <input
+                          type="checkbox"
+                          checked={currentFormData.performanceConcerns.hasIssues}
+                          disabled
+                          className="mr-3 h-4 w-4 opacity-60"
+                        />
+                        <span className="font-medium text-gray-700">Performance Concerns</span>
+                      </div>
+                      {currentFormData.performanceConcerns.hasIssues && (
+                        <div className="ml-7 p-3 bg-white border border-gray-200 rounded-lg text-gray-700">
+                          {currentFormData.performanceConcerns.details || 'No details provided'}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <div className="flex items-center mb-2">
+                        <input
+                          type="checkbox"
+                          checked={currentFormData.developmentOpportunities.hasOpportunities}
+                          disabled
+                          className="mr-3 h-4 w-4 opacity-60"
+                        />
+                        <span className="font-medium text-gray-700">Development Opportunities</span>
+                      </div>
+                      {currentFormData.developmentOpportunities.hasOpportunities && (
+                        <div className="ml-7 p-3 bg-white border border-gray-200 rounded-lg text-gray-700">
+                          {currentFormData.developmentOpportunities.details || 'No details provided'}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <div className="flex items-center mb-2">
+                        <input
+                          type="checkbox"
+                          checked={currentFormData.retentionConcerns.hasIssues}
+                          disabled
+                          className="mr-3 h-4 w-4 opacity-60"
+                        />
+                        <span className="font-medium text-gray-700">Retention Concerns</span>
+                      </div>
+                      {currentFormData.retentionConcerns.hasIssues && (
+                        <div className="ml-7 p-3 bg-white border border-gray-200 rounded-lg text-gray-700">
+                          {currentFormData.retentionConcerns.details || 'No details provided'}
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <span className="font-medium text-gray-700">Promotion Readiness:</span>
+                      <div className="mt-2 p-3 bg-white border border-gray-200 rounded-lg">
+                        <span className="text-gray-700">{currentFormData.promotionReadiness}</span>
+                        {currentFormData.promotionTimeframe && (
+                          <span className="text-gray-500 ml-2">({currentFormData.promotionTimeframe})</span>
+                        )}
+                      </div>
+                    </div>
+
+                    {(currentFormData.actions || []).length > 0 && (
+                      <div>
+                        <span className="font-medium text-gray-700">Original Action Items:</span>
+                        <div className="mt-2 space-y-2">
+                          {(currentFormData.actions || []).map((action, index) => (
+                            <div key={index} className="p-3 bg-white border border-gray-200 rounded-lg text-gray-700">
+                              {action}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {currentFormData.generalNotes && (
+                      <div>
+                        <span className="font-medium text-gray-700">Original Notes:</span>
+                        <div className="mt-2 p-3 bg-white border border-gray-200 rounded-lg text-gray-700">
+                          {currentFormData.generalNotes}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <label className="block font-medium text-gray-900 mb-2">
-                  General Notes
-                </label>
-                <textarea
-                  value={currentFormData.generalNotes}
-                  onChange={(e) => updateFormData({ generalNotes: e.target.value })}
-                  rows={3}
-                  placeholder="Additional notes..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+              <div className="space-y-6">
+                <div>
+                  <label className="block font-medium text-gray-900 mb-3">
+                    Additional Notes & Follow-up
+                  </label>
+                  <textarea
+                    value={currentReview?.reviewNotes || ''}
+                    onChange={(e) => {
+                      if (currentReview) {
+                        reviewService.update(currentReview.id, { reviewNotes: e.target.value });
+                        setReviews(prev => ({
+                          ...prev,
+                          [currentBA.id]: { ...currentReview, reviewNotes: e.target.value }
+                        }));
+                      }
+                    }}
+                    rows={4}
+                    placeholder="Add additional notes, observations, or follow-up actions based on the review discussion..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-medium text-gray-900 mb-3">
+                    Recommendations
+                  </label>
+                  <div className="space-y-2 mb-3">
+                    {(currentReview?.recommendations || []).map((recommendation, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <input
+                          type="text"
+                          value={recommendation}
+                          onChange={(e) => {
+                            if (currentReview) {
+                              const newRecommendations = [...(currentReview.recommendations || [])];
+                              newRecommendations[index] = e.target.value;
+                              reviewService.update(currentReview.id, { recommendations: newRecommendations });
+                              setReviews(prev => ({
+                                ...prev,
+                                [currentBA.id]: { ...currentReview, recommendations: newRecommendations }
+                              }));
+                            }
+                          }}
+                          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (currentReview) {
+                              const newRecommendations = (currentReview.recommendations || []).filter((_, i) => i !== index);
+                              reviewService.update(currentReview.id, { recommendations: newRecommendations });
+                              setReviews(prev => ({
+                                ...prev,
+                                [currentBA.id]: { ...currentReview, recommendations: newRecommendations }
+                              }));
+                            }
+                          }}
+                          className="text-red-600 hover:text-red-800 p-1"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={newAction}
+                      onChange={(e) => setNewAction(e.target.value)}
+                      placeholder="Add recommendation..."
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && newAction.trim() && currentReview) {
+                          e.preventDefault();
+                          const newRecommendations = [...(currentReview.recommendations || []), newAction.trim()];
+                          reviewService.update(currentReview.id, { recommendations: newRecommendations });
+                          setReviews(prev => ({
+                            ...prev,
+                            [currentBA.id]: { ...currentReview, recommendations: newRecommendations }
+                          }));
+                          setNewAction('');
+                        }
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (newAction.trim() && currentReview) {
+                          const newRecommendations = [...(currentReview.recommendations || []), newAction.trim()];
+                          reviewService.update(currentReview.id, { recommendations: newRecommendations });
+                          setReviews(prev => ({
+                            ...prev,
+                            [currentBA.id]: { ...currentReview, recommendations: newRecommendations }
+                          }));
+                          setNewAction('');
+                        }
+                      }}
+                      className="bg-gray-100 text-gray-700 p-2 rounded-lg hover:bg-gray-200"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
 
