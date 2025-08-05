@@ -55,8 +55,8 @@ class ReviewServiceImpl implements ReviewService {
         details: data.developmentOpportunities.details?.trim()
       },
       retentionConcerns: {
-        hasIssues: data.retentionConcerns.hasIssues,
-        details: data.retentionConcerns.details?.trim()
+        hasIssues: false,
+        details: undefined
       },
       promotionReadiness: data.promotionReadiness,
       promotionTimeframe: data.promotionTimeframe?.trim(),
@@ -78,7 +78,11 @@ class ReviewServiceImpl implements ReviewService {
     return newReview;
   }
 
-  update(id: string, data: Partial<CreateReviewRequest & { reviewNotes?: string; recommendations?: string[] }>): Review | null {
+  update(id: string, data: Partial<CreateReviewRequest & { 
+    retentionConcerns?: { hasIssues: boolean; details?: string; };
+    reviewNotes?: string; 
+    recommendations?: string[] 
+  }>): Review | null {
     const reviewIndex = this.reviews.findIndex(review => review.id === id);
     if (reviewIndex === -1) return null;
 
@@ -91,7 +95,6 @@ class ReviewServiceImpl implements ReviewService {
       wellbeingConcerns: data.wellbeingConcerns || existingReview.wellbeingConcerns,
       performanceConcerns: data.performanceConcerns || existingReview.performanceConcerns,
       developmentOpportunities: data.developmentOpportunities || existingReview.developmentOpportunities,
-      retentionConcerns: data.retentionConcerns || existingReview.retentionConcerns,
       promotionReadiness: data.promotionReadiness || existingReview.promotionReadiness,
       promotionTimeframe: data.promotionTimeframe || existingReview.promotionTimeframe,
       actions: data.actions || existingReview.actions,
@@ -99,7 +102,7 @@ class ReviewServiceImpl implements ReviewService {
     };
 
     // Only validate core review data, not additional session fields
-    if (Object.keys(data).some(key => ['roundId', 'businessAnalystId', 'wellbeingConcerns', 'performanceConcerns', 'developmentOpportunities', 'retentionConcerns', 'promotionReadiness', 'actions', 'generalNotes'].includes(key))) {
+    if (Object.keys(data).some(key => ['roundId', 'businessAnalystId', 'wellbeingConcerns', 'performanceConcerns', 'developmentOpportunities', 'promotionReadiness', 'actions', 'generalNotes'].includes(key))) {
       const validationErrors = validateReviewData(coreData);
       if (validationErrors.length > 0) {
         throw new Error(`Validation failed: ${validationErrors.join(', ')}`);
@@ -182,10 +185,6 @@ class ReviewServiceImpl implements ReviewService {
     }
     
     if (data.developmentOpportunities?.hasOpportunities && !data.developmentOpportunities.details?.trim()) {
-      return false;
-    }
-    
-    if (data.retentionConcerns?.hasIssues && !data.retentionConcerns.details?.trim()) {
       return false;
     }
 

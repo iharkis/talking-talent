@@ -84,7 +84,6 @@ export function SessionMode() {
         wellbeingConcerns: existingReview.wellbeingConcerns,
         performanceConcerns: existingReview.performanceConcerns,
         developmentOpportunities: existingReview.developmentOpportunities,
-        retentionConcerns: existingReview.retentionConcerns,
         promotionReadiness: existingReview.promotionReadiness,
         promotionTimeframe: existingReview.promotionTimeframe,
         actions: existingReview.actions,
@@ -97,7 +96,6 @@ export function SessionMode() {
         wellbeingConcerns: { hasIssues: false },
         performanceConcerns: { hasIssues: false },
         developmentOpportunities: { hasOpportunities: false },
-        retentionConcerns: { hasIssues: false },
         promotionReadiness: PromotionReadiness.NOT_READY,
         actions: [],
         generalNotes: ''
@@ -513,22 +511,6 @@ export function SessionMode() {
                       )}
                     </div>
 
-                    <div>
-                      <div className="flex items-center mb-2">
-                        <input
-                          type="checkbox"
-                          checked={currentFormData.retentionConcerns.hasIssues}
-                          disabled
-                          className="mr-3 h-4 w-4 opacity-60"
-                        />
-                        <span className="font-medium text-gray-700">Retention Concerns</span>
-                      </div>
-                      {currentFormData.retentionConcerns.hasIssues && (
-                        <div className="ml-7 p-3 bg-white border border-gray-200 rounded-lg text-gray-700">
-                          {currentFormData.retentionConcerns.details || 'No details provided'}
-                        </div>
-                      )}
-                    </div>
 
                     <div>
                       <span className="font-medium text-gray-700">Promotion Readiness:</span>
@@ -585,6 +567,53 @@ export function SessionMode() {
                     placeholder="Add additional notes, observations, or follow-up actions based on the review discussion..."
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
+                </div>
+
+                <div>
+                  <div className="flex items-center mb-3">
+                    <input
+                      type="checkbox"
+                      checked={currentReview?.retentionConcerns?.hasIssues || false}
+                      onChange={(e) => {
+                        if (currentReview) {
+                          const retentionConcerns = {
+                            hasIssues: e.target.checked,
+                            details: e.target.checked ? (currentReview.retentionConcerns?.details || '') : undefined
+                          };
+                          reviewService.update(currentReview.id, { retentionConcerns });
+                          setReviews(prev => ({
+                            ...prev,
+                            [currentBA.id]: { ...currentReview, retentionConcerns }
+                          }));
+                        }
+                      }}
+                      className="mr-3 h-4 w-4"
+                    />
+                    <label className="font-medium text-gray-900">
+                      Retention Concerns
+                    </label>
+                  </div>
+                  {currentReview?.retentionConcerns?.hasIssues && (
+                    <textarea
+                      value={currentReview.retentionConcerns.details || ''}
+                      onChange={(e) => {
+                        if (currentReview) {
+                          const retentionConcerns = {
+                            hasIssues: true,
+                            details: e.target.value
+                          };
+                          reviewService.update(currentReview.id, { retentionConcerns });
+                          setReviews(prev => ({
+                            ...prev,
+                            [currentBA.id]: { ...currentReview, retentionConcerns }
+                          }));
+                        }
+                      }}
+                      placeholder="Describe retention concerns identified during the session..."
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  )}
                 </div>
 
                 <div>

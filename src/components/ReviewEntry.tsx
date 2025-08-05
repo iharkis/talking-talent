@@ -224,7 +224,6 @@ function ReviewForm({ ba, round, existingReview, onSubmit, onCancel }: ReviewFor
     wellbeingConcerns: existingReview?.wellbeingConcerns || { hasIssues: false },
     performanceConcerns: existingReview?.performanceConcerns || { hasIssues: false },
     developmentOpportunities: existingReview?.developmentOpportunities || { hasOpportunities: false },
-    retentionConcerns: existingReview?.retentionConcerns || { hasIssues: false },
     promotionReadiness: existingReview?.promotionReadiness || PromotionReadiness.NOT_READY,
     promotionTimeframe: existingReview?.promotionTimeframe || '',
     actions: existingReview?.actions || [],
@@ -414,41 +413,6 @@ function ReviewForm({ ba, round, existingReview, onSubmit, onCancel }: ReviewFor
                 )}
               </div>
 
-              <div>
-                <div className="flex items-center mb-2">
-                  <input
-                    type="checkbox"
-                    checked={formData.retentionConcerns.hasIssues}
-                    onChange={(e) => setFormData({
-                      ...formData,
-                      retentionConcerns: {
-                        ...formData.retentionConcerns,
-                        hasIssues: e.target.checked,
-                        details: e.target.checked ? formData.retentionConcerns.details : undefined
-                      }
-                    })}
-                    className="mr-2"
-                  />
-                  <label className="text-sm font-medium text-gray-700">
-                    Retention Concerns
-                  </label>
-                </div>
-                {formData.retentionConcerns.hasIssues && (
-                  <textarea
-                    value={formData.retentionConcerns.details || ''}
-                    onChange={(e) => setFormData({
-                      ...formData,
-                      retentionConcerns: {
-                        ...formData.retentionConcerns,
-                        details: e.target.value
-                      }
-                    })}
-                    placeholder="Describe the retention concerns..."
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                )}
-              </div>
             </div>
 
             <div>
