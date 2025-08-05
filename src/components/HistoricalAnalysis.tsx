@@ -300,15 +300,15 @@ export function HistoricalAnalysis() {
                   {selectedBA === trend.baId && selectedTrend && (
                     <div className="mt-6 pt-6 border-t border-hippo-light-gray/30">
                       <h4 className="text-lg font-semibold text-hippo-dark-text mb-4">Review History</h4>
-                      <div className="space-y-4">
+                      <div className="space-y-6">
                         {selectedTrend.reviews.map((review, index) => {
                           const ReviewIcon = getPromotionReadinessIcon(review.promotionReadiness);
                           return (
                             <div 
                               key={index}
-                              className="bg-hippo-light-gray/20 rounded-hippo-subtle p-4"
+                              className="bg-hippo-light-gray/20 rounded-hippo-subtle p-6"
                             >
-                              <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center space-x-3">
                                   <Calendar className="h-4 w-4 text-hippo-dark-text/60" />
                                   <span className="font-medium text-hippo-dark-text">{review.roundName}</span>
@@ -324,7 +324,7 @@ export function HistoricalAnalysis() {
                                 </div>
                               </div>
                               
-                              <div className="grid grid-cols-3 gap-4 text-sm">
+                              <div className="grid grid-cols-3 gap-4 text-sm mb-4">
                                 <div className="flex items-center space-x-2">
                                   <span className="text-hippo-dark-text/60">Wellbeing Concerns:</span>
                                   <span className={review.concerns.wellbeing ? 'text-red-600' : 'text-green-600'}>
@@ -341,6 +341,91 @@ export function HistoricalAnalysis() {
                                   <span className="text-hippo-dark-text/60">Actions:</span>
                                   <span className="text-hippo-dark-text font-medium">{review.actionCount}</span>
                                 </div>
+                              </div>
+
+                              {/* Additional Text Content */}
+                              <div className="space-y-4 border-t border-hippo-light-gray/30 pt-4">
+                                {review.generalNotes && (
+                                  <div>
+                                    <h5 className="text-sm font-semibold text-hippo-dark-text mb-2">General Notes</h5>
+                                    <p className="text-sm text-hippo-dark-text/80 bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                      {review.generalNotes}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {review.reviewNotes && (
+                                  <div>
+                                    <h5 className="text-sm font-semibold text-hippo-dark-text mb-2">Review Notes</h5>
+                                    <p className="text-sm text-hippo-dark-text/80 bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                      {review.reviewNotes}
+                                    </p>
+                                  </div>
+                                )}
+
+                                {(review.wellbeingDetails || review.performanceDetails || review.developmentDetails || review.retentionDetails) && (
+                                  <div>
+                                    <h5 className="text-sm font-semibold text-hippo-dark-text mb-2">Concern Details</h5>
+                                    <div className="space-y-2">
+                                      {review.wellbeingDetails && (
+                                        <div className="bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                          <span className="text-xs font-medium text-hippo-dark-text/60 uppercase tracking-wide">Wellbeing</span>
+                                          <p className="text-sm text-hippo-dark-text/80 mt-1">{review.wellbeingDetails}</p>
+                                        </div>
+                                      )}
+                                      {review.performanceDetails && (
+                                        <div className="bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                          <span className="text-xs font-medium text-hippo-dark-text/60 uppercase tracking-wide">Performance</span>
+                                          <p className="text-sm text-hippo-dark-text/80 mt-1">{review.performanceDetails}</p>
+                                        </div>
+                                      )}
+                                      {review.developmentDetails && (
+                                        <div className="bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                          <span className="text-xs font-medium text-hippo-dark-text/60 uppercase tracking-wide">Development</span>
+                                          <p className="text-sm text-hippo-dark-text/80 mt-1">{review.developmentDetails}</p>
+                                        </div>
+                                      )}
+                                      {review.retentionDetails && (
+                                        <div className="bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                          <span className="text-xs font-medium text-hippo-dark-text/60 uppercase tracking-wide">Retention</span>
+                                          <p className="text-sm text-hippo-dark-text/80 mt-1">{review.retentionDetails}</p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {review.actions && review.actions.length > 0 && (
+                                  <div>
+                                    <h5 className="text-sm font-semibold text-hippo-dark-text mb-2">Actions ({review.actions.length})</h5>
+                                    <div className="bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                      <ul className="space-y-1">
+                                        {review.actions.map((action, actionIndex) => (
+                                          <li key={actionIndex} className="text-sm text-hippo-dark-text/80 flex items-start">
+                                            <span className="text-hippo-teal mr-2">•</span>
+                                            <span>{action}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                )}
+
+                                {review.recommendations && review.recommendations.length > 0 && (
+                                  <div>
+                                    <h5 className="text-sm font-semibold text-hippo-dark-text mb-2">Recommendations ({review.recommendations.length})</h5>
+                                    <div className="bg-hippo-white rounded-hippo p-3 border border-hippo-light-gray/30">
+                                      <ul className="space-y-1">
+                                        {review.recommendations.map((recommendation, recIndex) => (
+                                          <li key={recIndex} className="text-sm text-hippo-dark-text/80 flex items-start">
+                                            <span className="text-hippo-teal mr-2">•</span>
+                                            <span>{recommendation}</span>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           );

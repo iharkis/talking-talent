@@ -148,6 +148,14 @@ export interface HistoricalTrend {
       performance: boolean;
     };
     actionCount: number;
+    generalNotes?: string;
+    reviewNotes?: string;
+    wellbeingDetails?: string;
+    performanceDetails?: string;
+    developmentDetails?: string;
+    retentionDetails?: string;
+    actions: string[];
+    recommendations?: string[];
   }[];
   trend: 'Improving' | 'Stable' | 'Declining' | 'New';
 }

@@ -161,7 +161,15 @@ class ReviewServiceImpl implements ReviewService {
           wellbeing: review.wellbeingConcerns.hasIssues,
           performance: review.performanceConcerns.hasIssues
         },
-        actionCount: review.actions.length
+        actionCount: review.actions.length,
+        generalNotes: review.generalNotes,
+        reviewNotes: review.reviewNotes,
+        wellbeingDetails: review.wellbeingConcerns.details,
+        performanceDetails: review.performanceConcerns.details,
+        developmentDetails: review.developmentOpportunities.details,
+        retentionDetails: review.retentionConcerns?.details,
+        actions: review.actions,
+        recommendations: review.recommendations
       }));
 
     const trend = this.calculateTrend(reviewData);
