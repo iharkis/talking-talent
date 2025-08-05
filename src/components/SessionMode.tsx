@@ -573,6 +573,8 @@ export function SessionMode() {
                   <div className="flex items-center mb-3">
                     <input
                       type="checkbox"
+                      id="retention-concerns-checkbox"
+                      data-retention-concerns="true"
                       checked={currentReview?.retentionConcerns?.hasIssues || false}
                       onChange={(e) => {
                         if (currentReview) {
@@ -580,16 +582,48 @@ export function SessionMode() {
                             hasIssues: e.target.checked,
                             details: e.target.checked ? (currentReview.retentionConcerns?.details || '') : undefined
                           };
-                          reviewService.update(currentReview.id, { retentionConcerns });
-                          setReviews(prev => ({
-                            ...prev,
-                            [currentBA.id]: { ...currentReview, retentionConcerns }
-                          }));
+                          try {
+                            reviewService.update(currentReview.id, { retentionConcerns });
+                            setReviews(prev => ({
+                              ...prev,
+                              [currentBA.id]: { ...currentReview, retentionConcerns }
+                            }));
+                          } catch (error) {
+                            console.error('Failed to update retention concerns:', error);
+                          }
+                        } else {
+                          // If no review exists, create one first
+                          try {
+                            const newReview = reviewService.create({
+                              roundId: selectedRound!.id,
+                              businessAnalystId: currentBA.id,
+                              wellbeingConcerns: { hasIssues: false },
+                              performanceConcerns: { hasIssues: false },
+                              developmentOpportunities: { hasOpportunities: false },
+                              promotionReadiness: PromotionReadiness.NOT_READY,
+                              actions: [],
+                              generalNotes: ''
+                            });
+                            const retentionConcerns = {
+                              hasIssues: e.target.checked,
+                              details: e.target.checked ? '' : undefined
+                            };
+                            reviewService.update(newReview.id, { retentionConcerns });
+                            setReviews(prev => ({
+                              ...prev,
+                              [currentBA.id]: { ...newReview, retentionConcerns }
+                            }));
+                          } catch (error) {
+                            console.error('Failed to create review with retention concerns:', error);
+                          }
                         }
                       }}
-                      className="mr-3 h-4 w-4"
+                      className="mr-3 h-4 w-4 cursor-pointer"
                     />
-                    <label className="font-medium text-gray-900">
+                    <label 
+                      htmlFor="retention-concerns-checkbox"
+                      className="font-medium text-gray-900 cursor-pointer"
+                    >
                       Retention Concerns
                     </label>
                   </div>
@@ -602,11 +636,15 @@ export function SessionMode() {
                             hasIssues: true,
                             details: e.target.value
                           };
-                          reviewService.update(currentReview.id, { retentionConcerns });
-                          setReviews(prev => ({
-                            ...prev,
-                            [currentBA.id]: { ...currentReview, retentionConcerns }
-                          }));
+                          try {
+                            reviewService.update(currentReview.id, { retentionConcerns });
+                            setReviews(prev => ({
+                              ...prev,
+                              [currentBA.id]: { ...currentReview, retentionConcerns }
+                            }));
+                          } catch (error) {
+                            console.error('Failed to update retention concerns details:', error);
+                          }
                         }
                       }}
                       placeholder="Describe retention concerns identified during the session..."
