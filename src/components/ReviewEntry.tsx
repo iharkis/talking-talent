@@ -127,7 +127,7 @@ export function ReviewEntry() {
       )}
 
       {selectedRound && (
-        <div className="bg-white rounded-lg shadow-sm border">
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
           <div className="px-6 py-4 border-b">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold text-gray-900">
