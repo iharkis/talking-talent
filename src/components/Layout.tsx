@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cn } from '../utils/cn';
-import { Users, Calendar, ClipboardList, BarChart3, Settings, Menu, X, Play, LogOut, User } from 'lucide-react';
+import { Users, Calendar, ClipboardList, BarChart3, Settings, Menu, X, Play, LogOut, User, ChevronDown } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface LayoutProps {
@@ -76,8 +76,16 @@ export function Layout({ children }: LayoutProps) {
   }, []);
 
   useEffect(() => {
-    const handleClickOutside = () => {
-      setUserMenuOpen(false);
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      const userMenuButton = document.querySelector('[data-user-menu-button]');
+      const userMenuDropdown = document.querySelector('[data-user-menu-dropdown]');
+      
+      if (userMenuButton && userMenuDropdown) {
+        if (!userMenuButton.contains(target) && !userMenuDropdown.contains(target)) {
+          setUserMenuOpen(false);
+        }
+      }
     };
 
     if (userMenuOpen) {
@@ -177,7 +185,12 @@ export function Layout({ children }: LayoutProps) {
               
               <div className="relative">
                 <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  data-user-menu-button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    console.log('User menu button clicked, current state:', userMenuOpen);
+                    setUserMenuOpen(!userMenuOpen);
+                  }}
                   className="flex items-center space-x-3 p-2 rounded-hippo-subtle hover:bg-hippo-background transition-all duration-400"
                 >
                   {auth.user?.picture ? (
@@ -195,6 +208,10 @@ export function Layout({ children }: LayoutProps) {
                     <p className="text-sm font-medium text-hippo-text">{auth.user?.name}</p>
                     <p className="text-xs text-hippo-text/60">{auth.user?.email}</p>
                   </div>
+                  <ChevronDown className={cn(
+                    "h-4 w-4 text-hippo-text/60 transition-transform duration-200",
+                    userMenuOpen && "transform rotate-180"
+                  )} />
                 </button>
 
                 {userMenuOpen && (
@@ -203,7 +220,10 @@ export function Layout({ children }: LayoutProps) {
                       className="fixed inset-0 z-10" 
                       onClick={() => setUserMenuOpen(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-48 bg-hippo-white border border-hippo-background rounded-hippo-subtle shadow-hippo z-20">
+                    <div 
+                      data-user-menu-dropdown
+                      className="absolute right-0 mt-2 w-48 bg-hippo-white border border-hippo-background rounded-hippo-subtle shadow-hippo z-20"
+                    >
                       <div className="p-3 border-b border-hippo-background">
                         <p className="text-sm font-medium text-hippo-text">{auth.user?.name}</p>
                         <p className="text-xs text-hippo-text/60">{auth.user?.email}</p>
