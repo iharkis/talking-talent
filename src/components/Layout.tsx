@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { cn } from '../utils/cn';
-import { Users, Calendar, ClipboardList, BarChart3, Settings, Menu, X, Play } from 'lucide-react';
+import { Users, Calendar, ClipboardList, BarChart3, Settings, Menu, X, Play, LogOut, User } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -48,8 +49,10 @@ const navSections: NavSection[] = [
 ];
 
 export function Layout({ children }: LayoutProps) {
+  const { auth, signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
     const handlePathChange = () => {
@@ -71,6 +74,20 @@ export function Layout({ children }: LayoutProps) {
       window.history.pushState = originalPushState;
     };
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setUserMenuOpen(false);
+    };
+
+    if (userMenuOpen) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [userMenuOpen]);
 
   return (
     <div className="min-h-screen bg-hippo-background">
@@ -149,13 +166,61 @@ export function Layout({ children }: LayoutProps) {
             </button>
             
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-hippo-text/70 font-medium">
+              <div className="text-sm text-hippo-text/70 font-medium hidden md:block">
                 {new Date().toLocaleDateString('en-GB', { 
                   weekday: 'long', 
                   year: 'numeric', 
                   month: 'long', 
                   day: 'numeric' 
                 })}
+              </div>
+              
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center space-x-3 p-2 rounded-hippo-subtle hover:bg-hippo-background transition-all duration-400"
+                >
+                  {auth.user?.picture ? (
+                    <img 
+                      src={auth.user.picture} 
+                      alt={auth.user.name}
+                      className="h-8 w-8 rounded-full"
+                    />
+                  ) : (
+                    <div className="h-8 w-8 rounded-full bg-hippo-dark-blue flex items-center justify-center">
+                      <User className="h-4 w-4 text-hippo-white" />
+                    </div>
+                  )}
+                  <div className="text-left hidden sm:block">
+                    <p className="text-sm font-medium text-hippo-text">{auth.user?.name}</p>
+                    <p className="text-xs text-hippo-text/60">{auth.user?.email}</p>
+                  </div>
+                </button>
+
+                {userMenuOpen && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-10" 
+                      onClick={() => setUserMenuOpen(false)}
+                    />
+                    <div className="absolute right-0 mt-2 w-48 bg-hippo-white border border-hippo-background rounded-hippo-subtle shadow-hippo z-20">
+                      <div className="p-3 border-b border-hippo-background">
+                        <p className="text-sm font-medium text-hippo-text">{auth.user?.name}</p>
+                        <p className="text-xs text-hippo-text/60">{auth.user?.email}</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          setUserMenuOpen(false);
+                          signOut();
+                        }}
+                        className="w-full flex items-center px-4 py-3 text-sm text-hippo-text hover:bg-hippo-background transition-all duration-400"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
