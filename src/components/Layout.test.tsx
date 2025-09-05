@@ -68,9 +68,12 @@ describe('Layout', () => {
     expect(screen.getByText('Business Analysts')).toBeInTheDocument();
     expect(screen.getByText('Talking Talent Rounds')).toBeInTheDocument();
     expect(screen.getByText('Talking Talent Session')).toBeInTheDocument();
-    expect(screen.getByText('Reviews')).toBeInTheDocument();
     expect(screen.getByText('History')).toBeInTheDocument();
     expect(screen.getByText('Settings')).toBeInTheDocument();
+    
+    // Check for Reviews in the section title and nav item separately
+    expect(screen.getByRole('heading', { name: /reviews/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /^reviews$/i })).toBeInTheDocument();
   });
 
   it('should render section titles', () => {
@@ -81,8 +84,8 @@ describe('Layout', () => {
     );
 
     expect(screen.getByText('Planning & Setup')).toBeInTheDocument();
-    expect(screen.getByText('Reviews')).toBeInTheDocument();
     expect(screen.getByText('History & Settings')).toBeInTheDocument();
+    // Don't test "Reviews" as it appears in both section title and nav item
   });
 
   it('should display current date in header', () => {

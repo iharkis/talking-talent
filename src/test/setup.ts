@@ -13,7 +13,8 @@ Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
 
-// Mock Date.now for consistent testing
+// Mock Date.now for consistent testing with UTC timezone
+process.env.TZ = 'UTC';
 const mockDate = new Date('2024-08-10T10:00:00.000Z');
 vi.setSystemTime(mockDate);
 
