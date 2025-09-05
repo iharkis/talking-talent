@@ -163,8 +163,32 @@ src/
 npm run dev          # Start development server
 npm run build        # Build for production  
 npm run preview      # Preview production build
-npm run lint         # Run ESLint (if configured)
+npm run lint         # Run ESLint
+
+# Testing (Required - see Testing Policy below)
+npm test             # Run all tests in watch mode
+npm run test:unit    # Run unit tests only
+npm run test:integration # Run integration tests only
+npm run test:coverage    # Generate coverage report
 ```
+
+### 🚨 Testing Policy (IMPORTANT)
+
+**⚠️ ALL code changes must include tests FIRST before implementation.**
+
+This project follows **Test-Driven Development (TDD)**:
+1. **Write tests FIRST** for any new features or bug fixes
+2. **Update existing tests** when modifying functionality  
+3. **Verify all tests pass** before committing changes
+4. **Maintain 95%+ coverage** for utility functions, 80%+ for business logic
+
+**Test Structure:**
+- `tests/unit/` - Fast, isolated function/component tests
+- `tests/integration/` - Multi-service workflow tests  
+- `tests/e2e/` - Critical user journey tests
+
+**For any conversation with Claude Code:**
+Always remind Claude to write/update tests BEFORE making code changes!
 
 ### Code Style
 - No unnecessary comments (code should be self-explanatory)
