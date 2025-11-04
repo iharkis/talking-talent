@@ -27,7 +27,7 @@ const navSections: NavSection[] = [
   {
     title: 'Planning & Setup',
     items: [
-      { name: 'Business Analysts', icon: Users, path: '/bas' },
+      { name: 'Consultants', icon: Users, path: '/bas' },
       { name: 'Talking Talent Rounds', icon: Calendar, path: '/rounds' }
     ]
   },
