@@ -93,7 +93,7 @@ describe('Layout Component - Unit Tests', () => {
       );
 
       expect(screen.getByText('Dashboard')).toBeInTheDocument();
-      expect(screen.getByText('Business Analysts')).toBeInTheDocument();
+      expect(screen.getByText('Consultants')).toBeInTheDocument();
       expect(screen.getByText('Talking Talent Rounds')).toBeInTheDocument();
       expect(screen.getByText('Talking Talent Session')).toBeInTheDocument();
       expect(screen.getByText('History')).toBeInTheDocument();
@@ -119,7 +119,7 @@ describe('Layout Component - Unit Tests', () => {
       );
 
       expect(screen.getByRole('link', { name: /dashboard/i })).toHaveAttribute('href', '/dashboard');
-      expect(screen.getByRole('link', { name: /business analysts/i })).toHaveAttribute('href', '/bas');
+      expect(screen.getByRole('link', { name: /consultants/i })).toHaveAttribute('href', '/bas');
       expect(screen.getByRole('link', { name: /talking talent rounds/i })).toHaveAttribute('href', '/rounds');
       expect(screen.getByRole('link', { name: /talking talent session/i })).toHaveAttribute('href', '/session');
       expect(screen.getByRole('link', { name: /history/i })).toHaveAttribute('href', '/history');
@@ -163,9 +163,9 @@ describe('Layout Component - Unit Tests', () => {
         </Layout>
       );
 
-      const basLink = screen.getByRole('link', { name: /business analysts/i });
+      const basLink = screen.getByRole('link', { name: /consultants/i });
       expect(basLink).toHaveClass('bg-hippo-green');
-      
+
       const dashboardLink = screen.getByRole('link', { name: /dashboard/i });
       expect(dashboardLink).not.toHaveClass('bg-hippo-green');
     });

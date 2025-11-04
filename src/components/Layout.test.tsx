@@ -65,7 +65,7 @@ describe('Layout', () => {
     );
 
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
-    expect(screen.getByText('Business Analysts')).toBeInTheDocument();
+    expect(screen.getByText('Consultants')).toBeInTheDocument();
     expect(screen.getByText('Talking Talent Rounds')).toBeInTheDocument();
     expect(screen.getByText('Talking Talent Session')).toBeInTheDocument();
     expect(screen.getByText('History')).toBeInTheDocument();
@@ -166,7 +166,7 @@ describe('Layout', () => {
     );
 
     const dashboardLink = screen.getByRole('link', { name: /dashboard/i });
-    const basLink = screen.getByRole('link', { name: /business analysts/i });
+    const basLink = screen.getByRole('link', { name: /consultants/i });
     const roundsLink = screen.getByRole('link', { name: /talking talent rounds/i });
     const sessionLink = screen.getByRole('link', { name: /talking talent session/i });
     const reviewsLink = screen.getByRole('link', { name: /reviews/i });
@@ -191,8 +191,8 @@ describe('Layout', () => {
       </Layout>
     );
 
-    const basLink = screen.getByRole('link', { name: /business analysts/i });
-    
+    const basLink = screen.getByRole('link', { name: /consultants/i });
+
     // Check if the active class is applied (we can test this by checking if the element has specific styling classes)
     expect(basLink).toHaveClass('bg-hippo-green');
   });

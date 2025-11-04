@@ -567,12 +567,28 @@ export const createSampleData = () => {
     const nextQuarter = new Date();
     nextQuarter.setMonth(nextQuarter.getMonth() + 3);
 
+    // Create profession session dates staggered throughout the quarter
+    const sessionDates = {
+      businessAnalysis: new Date(nextQuarter.getTime() - 60 * 24 * 60 * 60 * 1000), // 60 days before deadline
+      product: new Date(nextQuarter.getTime() - 50 * 24 * 60 * 60 * 1000), // 50 days before deadline
+      delivery: new Date(nextQuarter.getTime() - 40 * 24 * 60 * 60 * 1000), // 40 days before deadline
+      engineering: new Date(nextQuarter.getTime() - 30 * 24 * 60 * 60 * 1000), // 30 days before deadline
+      cyber: new Date(nextQuarter.getTime() - 20 * 24 * 60 * 60 * 1000) // 20 days before deadline
+    };
+
     talentRoundService.create({
       name: 'Q1 2024 Talking Talent',
       quarter: 'Q1',
       year: 2024,
       deadline: nextQuarter,
-      description: 'Quarterly review focusing on career development and promotion readiness'
+      description: 'Quarterly review focusing on career development and promotion readiness',
+      professionSessions: [
+        { profession: 'Business Analysis', date: sessionDates.businessAnalysis },
+        { profession: 'Product', date: sessionDates.product },
+        { profession: 'Delivery', date: sessionDates.delivery },
+        { profession: 'Engineering', date: sessionDates.engineering },
+        { profession: 'Cyber', date: sessionDates.cyber }
+      ]
     });
 
     return { success: true, message: 'Sample data created successfully' };

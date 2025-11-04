@@ -41,6 +41,11 @@ export interface BusinessAnalyst {
   updatedAt: Date;
 }
 
+export interface ProfessionSession {
+  profession: string;
+  date: Date;
+}
+
 export interface TalentRound {
   id: string;
   name: string;
@@ -52,6 +57,7 @@ export interface TalentRound {
   createdAt: Date;
   completedAt?: Date;
   description?: string;
+  professionSessions: ProfessionSession[];
 }
 
 export interface Review {
@@ -105,6 +111,7 @@ export interface CreateRoundRequest {
   year: number;
   deadline: Date;
   description?: string;
+  professionSessions: ProfessionSession[];
 }
 
 export interface CreateReviewRequest {

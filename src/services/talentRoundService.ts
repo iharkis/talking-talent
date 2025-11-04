@@ -47,10 +47,11 @@ class TalentRoundServiceImpl implements TalentRoundService {
       quarter: data.quarter.trim(),
       year: data.year,
       deadline: data.deadline,
-      status: RoundStatus.DRAFT,
+      status: RoundStatus.ACTIVE,
       createdBy: 'system',
       createdAt: now,
-      description: data.description?.trim()
+      description: data.description?.trim(),
+      professionSessions: data.professionSessions || []
     };
 
     this.talentRounds.push(newRound);
@@ -73,7 +74,8 @@ class TalentRoundServiceImpl implements TalentRoundService {
       quarter: updatedData.quarter,
       year: updatedData.year,
       deadline: updatedData.deadline,
-      description: updatedData.description
+      description: updatedData.description,
+      professionSessions: updatedData.professionSessions || []
     });
 
     if (validationErrors.length > 0) {
@@ -82,7 +84,8 @@ class TalentRoundServiceImpl implements TalentRoundService {
 
     const updatedRound: TalentRound = {
       ...existingRound,
-      ...data
+      ...data,
+      professionSessions: data.professionSessions || existingRound.professionSessions
     };
 
     this.talentRounds[roundIndex] = updatedRound;

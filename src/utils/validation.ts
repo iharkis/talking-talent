@@ -24,19 +24,19 @@ export const validateBAData = (data: CreateBARequest): string[] => {
 
 export const validateRoundData = (data: CreateRoundRequest): string[] => {
   const errors: string[] = [];
-  
+
   if (!data.name.trim()) {
     errors.push('Round name is required');
   }
-  
+
   if (!data.quarter.trim()) {
     errors.push('Quarter is required');
   }
-  
+
   if (!data.year || data.year < 2020 || data.year > 2050) {
     errors.push('Valid year is required');
   }
-  
+
   if (!data.deadline) {
     errors.push('Deadline is required');
   } else {
@@ -44,12 +44,34 @@ export const validateRoundData = (data: CreateRoundRequest): string[] => {
     today.setHours(0, 0, 0, 0); // Set to start of today
     const deadlineDate = new Date(data.deadline);
     deadlineDate.setHours(0, 0, 0, 0); // Set to start of deadline day
-    
+
     if (deadlineDate < today) {
       errors.push('Deadline cannot be in the past');
     }
   }
-  
+
+  // Validate profession sessions
+  if (!data.professionSessions || data.professionSessions.length === 0) {
+    errors.push('At least one profession session is required');
+  } else {
+    const professions = new Set<string>();
+
+    data.professionSessions.forEach((session, index) => {
+      if (!session.profession || !session.profession.trim()) {
+        errors.push(`Profession session ${index + 1}: Profession name is required`);
+      } else {
+        if (professions.has(session.profession)) {
+          errors.push(`Duplicate profession session: ${session.profession}`);
+        }
+        professions.add(session.profession);
+      }
+
+      if (!session.date) {
+        errors.push(`Profession session ${session.profession || index + 1}: Date is required`);
+      }
+    });
+  }
+
   return errors;
 };
 

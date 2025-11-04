@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { talentRoundService } from '../services/talentRoundService';
-import { TalentRound, RoundStatus, CreateRoundRequest, RoundSummary } from '../types';
+import { TalentRound, RoundStatus, CreateRoundRequest, RoundSummary, ProfessionSession } from '../types';
 import { formatDate, formatDateTime, formatDateForInput, getDaysUntilDeadline, isOverdue } from '../utils/date';
 import { cn } from '../utils/cn';
 import { Plus, Calendar, Play, Check, Clock, AlertTriangle, BarChart3 } from 'lucide-react';
@@ -40,15 +40,6 @@ export function RoundManagement() {
       setEditingRound(null);
     } catch (error) {
       alert(error instanceof Error ? error.message : 'An error occurred');
-    }
-  };
-
-  const handleActivate = (id: string) => {
-    try {
-      talentRoundService.activate(id);
-      loadRounds();
-    } catch (error) {
-      alert(error instanceof Error ? error.message : 'Failed to activate round');
     }
   };
 
@@ -179,29 +170,23 @@ export function RoundManagement() {
                       {round.description && (
                         <p className="mt-3 text-sm text-gray-600">{round.description}</p>
                       )}
+
+                      {round.professionSessions && round.professionSessions.length > 0 && (
+                        <div className="mt-4 border-t pt-4">
+                          <h4 className="text-sm font-semibold text-gray-900 mb-3">Profession Sessions</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                            {round.professionSessions.map((session) => (
+                              <div key={session.profession} className="flex items-center justify-between text-sm bg-gray-50 p-2 rounded">
+                                <span className="font-medium text-gray-700">{session.profession}</span>
+                                <span className="text-gray-600">{formatDate(session.date)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex space-x-2">
-                      {round.status === RoundStatus.DRAFT && (
-                        <>
-                          <button
-                            onClick={() => {
-                              setEditingRound(round);
-                              setShowForm(true);
-                            }}
-                            className="text-gray-600 hover:text-gray-900 px-3 py-1 text-sm border rounded-lg hover:bg-gray-50"
-                          >
-                            Edit
-                          </button>
-                          <button
-                            onClick={() => handleActivate(round.id)}
-                            className="btn-hippo-cta text-sm"
-                          >
-                            Activate
-                          </button>
-                        </>
-                      )}
-                      
                       {round.status === RoundStatus.ACTIVE && summary && (
                         <button
                           onClick={() => handleComplete(round.id)}
@@ -287,13 +272,33 @@ interface RoundFormProps {
 }
 
 function RoundForm({ round, onSubmit, onCancel }: RoundFormProps) {
+  const professions = ['Business Analysis', 'Product', 'Delivery', 'Engineering', 'Cyber'];
+
+  const getDefaultProfessionSessions = (): ProfessionSession[] => {
+    const nextMonth = new Date();
+    nextMonth.setMonth(nextMonth.getMonth() + 1);
+
+    return professions.map(profession => ({
+      profession,
+      date: new Date(nextMonth)
+    }));
+  };
+
   const [formData, setFormData] = useState<CreateRoundRequest>({
     name: round?.name || '',
     quarter: round?.quarter || 'Q1',
     year: round?.year || new Date().getFullYear(),
     deadline: round?.deadline || new Date(),
-    description: round?.description || ''
+    description: round?.description || '',
+    professionSessions: round?.professionSessions || getDefaultProfessionSessions()
   });
+
+  const updateProfessionDate = (profession: string, date: Date) => {
+    const updatedSessions = formData.professionSessions.map(session =>
+      session.profession === profession ? { ...session, date } : session
+    );
+    setFormData({ ...formData, professionSessions: updatedSessions });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -377,6 +382,26 @@ function RoundForm({ round, onSubmit, onCancel }: RoundFormProps) {
               placeholder="Additional details about this round..."
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
+          </div>
+
+          <div className="border-t pt-4">
+            <h4 className="text-sm font-semibold text-gray-900 mb-3">Profession Session Dates</h4>
+            <div className="space-y-3">
+              {formData.professionSessions.map((session) => (
+                <div key={session.profession} className="grid grid-cols-2 gap-3 items-center">
+                  <label className="text-sm font-medium text-gray-700">
+                    {session.profession}
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={formatDateForInput(session.date)}
+                    onChange={(e) => updateProfessionDate(session.profession, new Date(e.target.value))}
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </form>
 

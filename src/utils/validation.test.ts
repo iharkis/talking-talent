@@ -1,6 +1,14 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { validateBAData, validateRoundData, validateReviewData } from './validation';
-import { BALevel } from '../types';
+import { BALevel, ProfessionSession } from '../types';
+
+const defaultProfessionSessions: ProfessionSession[] = [
+  { profession: 'Business Analysis', date: new Date('2025-12-01') },
+  { profession: 'Product', date: new Date('2025-12-05') },
+  { profession: 'Delivery', date: new Date('2025-12-10') },
+  { profession: 'Engineering', date: new Date('2025-12-15') },
+  { profession: 'Cyber', date: new Date('2025-12-20') }
+];
 
 describe('Validation Utils', () => {
   describe('validateBAData', () => {
@@ -97,6 +105,7 @@ describe('Validation Utils', () => {
         year: 2024,
         deadline: futureDate,
         description: 'Annual review round',
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(validData);
@@ -109,6 +118,7 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: futureDate,
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -121,6 +131,7 @@ describe('Validation Utils', () => {
         quarter: '',
         year: 2024,
         deadline: futureDate,
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -133,6 +144,7 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2010, // Too old
         deadline: futureDate,
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -145,6 +157,7 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2055,
         deadline: futureDate,
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -157,6 +170,7 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: null as any,
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -170,6 +184,7 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: pastDate,
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -183,10 +198,70 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: today,
+        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
       expect(errors).not.toContain('Deadline cannot be in the past');
+    });
+
+    it('should require at least one profession session', () => {
+      const data = {
+        name: 'Q4 2024 Review',
+        quarter: 'Q4',
+        year: 2024,
+        deadline: futureDate,
+        professionSessions: []
+      };
+
+      const errors = validateRoundData(data);
+      expect(errors).toContain('At least one profession session is required');
+    });
+
+    it('should require profession name for each session', () => {
+      const data = {
+        name: 'Q4 2024 Review',
+        quarter: 'Q4',
+        year: 2024,
+        deadline: futureDate,
+        professionSessions: [
+          { profession: '', date: new Date('2025-12-01') }
+        ]
+      };
+
+      const errors = validateRoundData(data);
+      expect(errors.some(e => e.includes('Profession name is required'))).toBe(true);
+    });
+
+    it('should require date for each profession session', () => {
+      const data = {
+        name: 'Q4 2024 Review',
+        quarter: 'Q4',
+        year: 2024,
+        deadline: futureDate,
+        professionSessions: [
+          { profession: 'Business Analysis', date: null as any }
+        ]
+      };
+
+      const errors = validateRoundData(data);
+      expect(errors.some(e => e.includes('Date is required'))).toBe(true);
+    });
+
+    it('should reject duplicate profession sessions', () => {
+      const data = {
+        name: 'Q4 2024 Review',
+        quarter: 'Q4',
+        year: 2024,
+        deadline: futureDate,
+        professionSessions: [
+          { profession: 'Business Analysis', date: new Date('2025-12-01') },
+          { profession: 'Business Analysis', date: new Date('2025-12-05') }
+        ]
+      };
+
+      const errors = validateRoundData(data);
+      expect(errors).toContain('Duplicate profession session: Business Analysis');
     });
   });
 
