@@ -32,10 +32,10 @@ const navSections: NavSection[] = [
     ]
   },
   {
-    title: 'Reviews',
+    title: 'Conversations',
     items: [
       { name: 'Talking Talent Session', icon: Play, path: '/session' },
-      { name: 'Reviews', icon: ClipboardList, path: '/reviews' }
+      { name: 'Conversations', icon: ClipboardList, path: '/reviews' }
     ]
   },
   {
