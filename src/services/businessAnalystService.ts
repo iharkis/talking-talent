@@ -42,6 +42,8 @@ class BusinessAnalystServiceImpl implements BusinessAnalystService {
       firstName: data.firstName.trim(),
       lastName: data.lastName.trim(),
       email: data.email?.trim(),
+      employeeNo: data.employeeNo?.trim(),
+      profession: data.profession?.trim(),
       level: data.level,
       lineManagerId: data.lineManagerId,
       department: data.department?.trim(),

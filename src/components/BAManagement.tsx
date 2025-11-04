@@ -3,7 +3,7 @@ import { businessAnalystService } from '../services/businessAnalystService';
 import { BusinessAnalyst, BALevel, CreateBARequest } from '../types';
 import { cn } from '../utils/cn';
 import { formatDate, formatDateForInput } from '../utils/date';
-import { Plus, Edit, Trash2, Users, Search } from 'lucide-react';
+import { Edit, Trash2, Users, Search } from 'lucide-react';
 
 export function BAManagement() {
   const [businessAnalysts, setBusinessAnalysts] = useState<BusinessAnalyst[]>([]);
@@ -106,20 +106,11 @@ export function BAManagement() {
   return (
     <div className="space-y-8">
       <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-semibold text-hippo-dark-text">Consultants</h1>
-            <p className="mt-2 text-hippo-dark-text/70">
-              Manage your team of consultants
-            </p>
-          </div>
-          <button
-            onClick={() => setShowForm(true)}
-            className="btn-hippo flex items-center"
-          >
-            <Plus className="h-5 w-5 mr-2" />
-            Add Consultant
-          </button>
+        <div>
+          <h1 className="text-3xl font-semibold text-hippo-dark-text">Consultants</h1>
+          <p className="mt-2 text-hippo-dark-text/70">
+            Manage your team of consultants
+          </p>
         </div>
       </div>
 
