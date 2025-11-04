@@ -29,6 +29,8 @@ export interface BusinessAnalyst {
   firstName: string;
   lastName: string;
   email?: string;
+  employeeNo?: string;
+  profession?: string;
   level: BALevel;
   lineManagerId?: string;
   department?: string;
@@ -89,6 +91,8 @@ export interface CreateBARequest {
   firstName: string;
   lastName: string;
   email?: string;
+  employeeNo?: string;
+  profession?: string;
   level: BALevel;
   lineManagerId?: string;
   department?: string;
