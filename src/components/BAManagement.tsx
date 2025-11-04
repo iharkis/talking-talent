@@ -11,6 +11,7 @@ export function BAManagement() {
   const [editingBA, setEditingBA] = useState<BusinessAnalyst | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [levelFilter, setLevelFilter] = useState<BALevel | 'ALL'>('ALL');
+  const [professionFilter, setProfessionFilter] = useState<string>('ALL');
   const [lineManagerFilter, setLineManagerFilter] = useState<'ALL' | string>('ALL');
 
   useEffect(() => {
@@ -33,21 +34,32 @@ export function BAManagement() {
 
   const filteredBAs = useMemo(() => {
     return businessAnalysts.filter(ba => {
-      const matchesSearch = 
+      const matchesSearch =
         ba.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         ba.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         ba.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         ba.department?.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
       const matchesLevel = levelFilter === 'ALL' || ba.level === levelFilter;
-      
-      const matchesLineManager = lineManagerFilter === 'ALL' || 
+
+      const matchesProfession = professionFilter === 'ALL' || ba.profession === professionFilter;
+
+      const matchesLineManager = lineManagerFilter === 'ALL' ||
         (lineManagerFilter === ba.lineManagerId) ||
         (getReportsTree(lineManagerFilter).includes(ba.id));
-      
-      return matchesSearch && matchesLevel && matchesLineManager && ba.isActive;
+
+      return matchesSearch && matchesLevel && matchesProfession && matchesLineManager && ba.isActive;
     });
-  }, [businessAnalysts, searchTerm, levelFilter, lineManagerFilter, getReportsTree]);
+  }, [businessAnalysts, searchTerm, levelFilter, professionFilter, lineManagerFilter, getReportsTree]);
+
+  // Get all unique professions for the filter dropdown
+  const professions = useMemo(() => {
+    const uniqueProfessions = [...new Set(businessAnalysts
+      .map(ba => ba.profession)
+      .filter(profession => profession !== undefined))];
+
+    return uniqueProfessions.sort();
+  }, [businessAnalysts]);
 
   const handleCreateOrUpdate = (data: CreateBARequest) => {
     try {
@@ -126,6 +138,18 @@ export function BAManagement() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-3 border border-hippo-light-gray rounded-hippo focus:ring-2 focus:ring-hippo-teal focus:border-hippo-teal transition-all duration-400"
               />
+            </div>
+            <div>
+              <select
+                value={professionFilter}
+                onChange={(e) => setProfessionFilter(e.target.value)}
+                className="px-4 py-3 border border-hippo-light-gray rounded-hippo focus:ring-2 focus:ring-hippo-teal focus:border-hippo-teal transition-all duration-400"
+              >
+                <option value="ALL">All Professions</option>
+                {professions.map(profession => (
+                  <option key={profession} value={profession}>{profession}</option>
+                ))}
+              </select>
             </div>
             <div>
               <select
@@ -249,7 +273,7 @@ export function BAManagement() {
             <Users className="mx-auto h-12 w-12 text-gray-400" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">No consultants found</h3>
             <p className="mt-1 text-sm text-gray-500">
-              {searchTerm || levelFilter !== 'ALL'
+              {searchTerm || levelFilter !== 'ALL' || professionFilter !== 'ALL' || lineManagerFilter !== 'ALL'
                 ? 'Try adjusting your search or filter criteria.'
                 : 'Get started by adding your first consultant.'
               }

@@ -6,9 +6,9 @@ export const createSampleData = () => {
   try {
     // Business Analysis - Principal
     const baPrincipal = businessAnalystService.create({
-      firstName: 'Sarah',
-      lastName: 'Johnson',
-      email: 'sarah.johnson@company.com',
+      firstName: 'Amara',
+      lastName: 'Okafor',
+      email: 'amara.okafor@company.com',
       employeeNo: 'EMP001',
       profession: 'Business Analysis',
       level: BALevel.PRINCIPAL,
@@ -18,9 +18,9 @@ export const createSampleData = () => {
 
     // Business Analysis - Leads
     const baLead1 = businessAnalystService.create({
-      firstName: 'Michael',
+      firstName: 'Wei',
       lastName: 'Chen',
-      email: 'michael.chen@company.com',
+      email: 'wei.chen@company.com',
       employeeNo: 'EMP002',
       profession: 'Business Analysis',
       level: BALevel.LEAD,
@@ -30,9 +30,9 @@ export const createSampleData = () => {
     });
 
     const baLead2 = businessAnalystService.create({
-      firstName: 'Emma',
-      lastName: 'Davies',
-      email: 'emma.davies@company.com',
+      firstName: 'Fatima',
+      lastName: 'Al-Rashid',
+      email: 'fatima.alrashid@company.com',
       employeeNo: 'EMP003',
       profession: 'Business Analysis',
       level: BALevel.LEAD,
@@ -43,9 +43,9 @@ export const createSampleData = () => {
 
     // Business Analysis - Seniors
     const baSenior1 = businessAnalystService.create({
-      firstName: 'James',
-      lastName: 'Wilson',
-      email: 'james.wilson@company.com',
+      firstName: 'Jamal',
+      lastName: 'Thompson',
+      email: 'jamal.thompson@company.com',
       employeeNo: 'EMP004',
       profession: 'Business Analysis',
       level: BALevel.SENIOR,
@@ -56,8 +56,8 @@ export const createSampleData = () => {
 
     const baSenior2 = businessAnalystService.create({
       firstName: 'Priya',
-      lastName: 'Patel',
-      email: 'priya.patel@company.com',
+      lastName: 'Desai',
+      email: 'priya.desai@company.com',
       employeeNo: 'EMP005',
       profession: 'Business Analysis',
       level: BALevel.SENIOR,
@@ -68,9 +68,9 @@ export const createSampleData = () => {
 
     // Business Analysis - Intermediates
     businessAnalystService.create({
-      firstName: 'Alex',
-      lastName: 'Taylor',
-      email: 'alex.taylor@company.com',
+      firstName: 'Yuki',
+      lastName: 'Tanaka',
+      email: 'yuki.tanaka@company.com',
       employeeNo: 'EMP006',
       profession: 'Business Analysis',
       level: BALevel.INTERMEDIATE,
@@ -80,9 +80,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Sophie',
-      lastName: 'Martin',
-      email: 'sophie.martin@company.com',
+      firstName: 'Aisha',
+      lastName: 'Hassan',
+      email: 'aisha.hassan@company.com',
       employeeNo: 'EMP007',
       profession: 'Business Analysis',
       level: BALevel.INTERMEDIATE,
@@ -93,9 +93,9 @@ export const createSampleData = () => {
 
     // Business Analysis - Consultants
     businessAnalystService.create({
-      firstName: 'Casey',
-      lastName: 'Anderson',
-      email: 'casey.anderson@company.com',
+      firstName: 'Diego',
+      lastName: 'Fernandez',
+      email: 'diego.fernandez@company.com',
       employeeNo: 'EMP008',
       profession: 'Business Analysis',
       level: BALevel.CONSULTANT,
@@ -105,9 +105,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Riley',
-      lastName: 'Brooks',
-      email: 'riley.brooks@company.com',
+      firstName: 'Zara',
+      lastName: 'Nguyen',
+      email: 'zara.nguyen@company.com',
       employeeNo: 'EMP009',
       profession: 'Business Analysis',
       level: BALevel.CONSULTANT,
@@ -118,9 +118,9 @@ export const createSampleData = () => {
 
     // Product - Principal
     const prodPrincipal = businessAnalystService.create({
-      firstName: 'David',
-      lastName: 'Thompson',
-      email: 'david.thompson@company.com',
+      firstName: 'Kwame',
+      lastName: 'Mensah',
+      email: 'kwame.mensah@company.com',
       employeeNo: 'EMP010',
       profession: 'Product',
       level: BALevel.PRINCIPAL,
@@ -130,9 +130,9 @@ export const createSampleData = () => {
 
     // Product - Leads
     const prodLead1 = businessAnalystService.create({
-      firstName: 'Rachel',
-      lastName: 'Kim',
-      email: 'rachel.kim@company.com',
+      firstName: 'Mei',
+      lastName: 'Wong',
+      email: 'mei.wong@company.com',
       employeeNo: 'EMP011',
       profession: 'Product',
       level: BALevel.LEAD,
@@ -142,9 +142,9 @@ export const createSampleData = () => {
     });
 
     const prodLead2 = businessAnalystService.create({
-      firstName: 'Tom',
-      lastName: 'Hughes',
-      email: 'tom.hughes@company.com',
+      firstName: 'Ravi',
+      lastName: 'Kumar',
+      email: 'ravi.kumar@company.com',
       employeeNo: 'EMP012',
       profession: 'Product',
       level: BALevel.LEAD,
@@ -155,9 +155,9 @@ export const createSampleData = () => {
 
     // Product - Seniors
     const prodSenior1 = businessAnalystService.create({
-      firstName: 'Nina',
+      firstName: 'Lucia',
       lastName: 'Rodriguez',
-      email: 'nina.rodriguez@company.com',
+      email: 'lucia.rodriguez@company.com',
       employeeNo: 'EMP013',
       profession: 'Product',
       level: BALevel.SENIOR,
@@ -167,9 +167,9 @@ export const createSampleData = () => {
     });
 
     const prodSenior2 = businessAnalystService.create({
-      firstName: 'Oliver',
-      lastName: 'Wright',
-      email: 'oliver.wright@company.com',
+      firstName: 'Tariq',
+      lastName: 'Ahmed',
+      email: 'tariq.ahmed@company.com',
       employeeNo: 'EMP014',
       profession: 'Product',
       level: BALevel.SENIOR,
@@ -180,9 +180,9 @@ export const createSampleData = () => {
 
     // Product - Intermediates
     businessAnalystService.create({
-      firstName: 'Maya',
-      lastName: 'Singh',
-      email: 'maya.singh@company.com',
+      firstName: 'Leila',
+      lastName: 'Moradi',
+      email: 'leila.moradi@company.com',
       employeeNo: 'EMP015',
       profession: 'Product',
       level: BALevel.INTERMEDIATE,
@@ -192,9 +192,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Ethan',
-      lastName: 'Moore',
-      email: 'ethan.moore@company.com',
+      firstName: 'Kofi',
+      lastName: 'Addo',
+      email: 'kofi.addo@company.com',
       employeeNo: 'EMP016',
       profession: 'Product',
       level: BALevel.INTERMEDIATE,
@@ -205,9 +205,9 @@ export const createSampleData = () => {
 
     // Product - Consultants
     businessAnalystService.create({
-      firstName: 'Zoe',
-      lastName: 'Lewis',
-      email: 'zoe.lewis@company.com',
+      firstName: 'Ayesha',
+      lastName: 'Khan',
+      email: 'ayesha.khan@company.com',
       employeeNo: 'EMP017',
       profession: 'Product',
       level: BALevel.CONSULTANT,
@@ -217,9 +217,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Lucas',
-      lastName: 'Baker',
-      email: 'lucas.baker@company.com',
+      firstName: 'Mateo',
+      lastName: 'Silva',
+      email: 'mateo.silva@company.com',
       employeeNo: 'EMP018',
       profession: 'Product',
       level: BALevel.CONSULTANT,
@@ -230,9 +230,9 @@ export const createSampleData = () => {
 
     // Delivery - Principal
     const delPrincipal = businessAnalystService.create({
-      firstName: 'Victoria',
-      lastName: 'Green',
-      email: 'victoria.green@company.com',
+      firstName: 'Chioma',
+      lastName: 'Nwosu',
+      email: 'chioma.nwosu@company.com',
       employeeNo: 'EMP019',
       profession: 'Delivery',
       level: BALevel.PRINCIPAL,
@@ -242,9 +242,9 @@ export const createSampleData = () => {
 
     // Delivery - Leads
     const delLead1 = businessAnalystService.create({
-      firstName: 'Marcus',
-      lastName: 'Foster',
-      email: 'marcus.foster@company.com',
+      firstName: 'Rahul',
+      lastName: 'Patel',
+      email: 'rahul.patel@company.com',
       employeeNo: 'EMP020',
       profession: 'Delivery',
       level: BALevel.LEAD,
@@ -254,9 +254,9 @@ export const createSampleData = () => {
     });
 
     const delLead2 = businessAnalystService.create({
-      firstName: 'Hannah',
-      lastName: 'Clarke',
-      email: 'hannah.clarke@company.com',
+      firstName: 'Noor',
+      lastName: 'Al-Sayed',
+      email: 'noor.alsayed@company.com',
       employeeNo: 'EMP021',
       profession: 'Delivery',
       level: BALevel.LEAD,
@@ -267,9 +267,9 @@ export const createSampleData = () => {
 
     // Delivery - Seniors
     const delSenior1 = businessAnalystService.create({
-      firstName: 'Daniel',
-      lastName: 'Scott',
-      email: 'daniel.scott@company.com',
+      firstName: 'Kenji',
+      lastName: 'Yamamoto',
+      email: 'kenji.yamamoto@company.com',
       employeeNo: 'EMP022',
       profession: 'Delivery',
       level: BALevel.SENIOR,
@@ -279,9 +279,9 @@ export const createSampleData = () => {
     });
 
     const delSenior2 = businessAnalystService.create({
-      firstName: 'Amelia',
-      lastName: 'Cooper',
-      email: 'amelia.cooper@company.com',
+      firstName: 'Yasmin',
+      lastName: 'Ibrahim',
+      email: 'yasmin.ibrahim@company.com',
       employeeNo: 'EMP023',
       profession: 'Delivery',
       level: BALevel.SENIOR,
@@ -292,9 +292,9 @@ export const createSampleData = () => {
 
     // Delivery - Intermediates
     businessAnalystService.create({
-      firstName: 'Jordan',
-      lastName: 'Miller',
-      email: 'jordan.miller@company.com',
+      firstName: 'Andre',
+      lastName: 'Santos',
+      email: 'andre.santos@company.com',
       employeeNo: 'EMP024',
       profession: 'Delivery',
       level: BALevel.INTERMEDIATE,
@@ -304,9 +304,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Chloe',
-      lastName: 'Adams',
-      email: 'chloe.adams@company.com',
+      firstName: 'Sana',
+      lastName: 'Rahman',
+      email: 'sana.rahman@company.com',
       employeeNo: 'EMP025',
       profession: 'Delivery',
       level: BALevel.INTERMEDIATE,
@@ -317,9 +317,9 @@ export const createSampleData = () => {
 
     // Delivery - Consultants
     businessAnalystService.create({
-      firstName: 'Ryan',
-      lastName: 'Phillips',
-      email: 'ryan.phillips@company.com',
+      firstName: 'Thabo',
+      lastName: 'Mokoena',
+      email: 'thabo.mokoena@company.com',
       employeeNo: 'EMP026',
       profession: 'Delivery',
       level: BALevel.CONSULTANT,
@@ -329,9 +329,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Lily',
-      lastName: 'Turner',
-      email: 'lily.turner@company.com',
+      firstName: 'Ming',
+      lastName: 'Li',
+      email: 'ming.li@company.com',
       employeeNo: 'EMP027',
       profession: 'Delivery',
       level: BALevel.CONSULTANT,
@@ -342,9 +342,9 @@ export const createSampleData = () => {
 
     // Engineering - Principal
     const engPrincipal = businessAnalystService.create({
-      firstName: 'Andrew',
-      lastName: 'Mitchell',
-      email: 'andrew.mitchell@company.com',
+      firstName: 'Adewale',
+      lastName: 'Ogunlesi',
+      email: 'adewale.ogunlesi@company.com',
       employeeNo: 'EMP028',
       profession: 'Engineering',
       level: BALevel.PRINCIPAL,
@@ -354,9 +354,9 @@ export const createSampleData = () => {
 
     // Engineering - Leads
     const engLead1 = businessAnalystService.create({
-      firstName: 'Jennifer',
-      lastName: 'Walsh',
-      email: 'jennifer.walsh@company.com',
+      firstName: 'Hina',
+      lastName: 'Tanaka',
+      email: 'hina.tanaka@company.com',
       employeeNo: 'EMP029',
       profession: 'Engineering',
       level: BALevel.LEAD,
@@ -366,9 +366,9 @@ export const createSampleData = () => {
     });
 
     const engLead2 = businessAnalystService.create({
-      firstName: 'Robert',
-      lastName: 'Hayes',
-      email: 'robert.hayes@company.com',
+      firstName: 'Omar',
+      lastName: 'Hassan',
+      email: 'omar.hassan@company.com',
       employeeNo: 'EMP030',
       profession: 'Engineering',
       level: BALevel.LEAD,
@@ -379,9 +379,9 @@ export const createSampleData = () => {
 
     // Engineering - Seniors
     const engSenior1 = businessAnalystService.create({
-      firstName: 'Lisa',
-      lastName: 'Brown',
-      email: 'lisa.brown@company.com',
+      firstName: 'Lakshmi',
+      lastName: 'Krishnan',
+      email: 'lakshmi.krishnan@company.com',
       employeeNo: 'EMP031',
       profession: 'Engineering',
       level: BALevel.SENIOR,
@@ -391,9 +391,9 @@ export const createSampleData = () => {
     });
 
     const engSenior2 = businessAnalystService.create({
-      firstName: 'Kevin',
-      lastName: 'Murphy',
-      email: 'kevin.murphy@company.com',
+      firstName: 'Carlos',
+      lastName: 'Morales',
+      email: 'carlos.morales@company.com',
       employeeNo: 'EMP032',
       profession: 'Engineering',
       level: BALevel.SENIOR,
@@ -404,9 +404,9 @@ export const createSampleData = () => {
 
     // Engineering - Intermediates
     businessAnalystService.create({
-      firstName: 'Sophia',
-      lastName: 'Reed',
-      email: 'sophia.reed@company.com',
+      firstName: 'Samir',
+      lastName: 'Nasser',
+      email: 'samir.nasser@company.com',
       employeeNo: 'EMP033',
       profession: 'Engineering',
       level: BALevel.INTERMEDIATE,
@@ -416,9 +416,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Jacob',
-      lastName: 'Powell',
-      email: 'jacob.powell@company.com',
+      firstName: 'Nia',
+      lastName: 'Williams',
+      email: 'nia.williams@company.com',
       employeeNo: 'EMP034',
       profession: 'Engineering',
       level: BALevel.INTERMEDIATE,
@@ -429,9 +429,9 @@ export const createSampleData = () => {
 
     // Engineering - Consultants
     businessAnalystService.create({
-      firstName: 'Mia',
-      lastName: 'Bennett',
-      email: 'mia.bennett@company.com',
+      firstName: 'Xin',
+      lastName: 'Zhang',
+      email: 'xin.zhang@company.com',
       employeeNo: 'EMP035',
       profession: 'Engineering',
       level: BALevel.CONSULTANT,
@@ -441,9 +441,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Noah',
-      lastName: 'Gray',
-      email: 'noah.gray@company.com',
+      firstName: 'Amina',
+      lastName: 'Diallo',
+      email: 'amina.diallo@company.com',
       employeeNo: 'EMP036',
       profession: 'Engineering',
       level: BALevel.CONSULTANT,
@@ -454,9 +454,9 @@ export const createSampleData = () => {
 
     // Cyber - Principal
     const cyberPrincipal = businessAnalystService.create({
-      firstName: 'Katherine',
-      lastName: 'Edwards',
-      email: 'katherine.edwards@company.com',
+      firstName: 'Adeola',
+      lastName: 'Adeyemi',
+      email: 'adeola.adeyemi@company.com',
       employeeNo: 'EMP037',
       profession: 'Cyber',
       level: BALevel.PRINCIPAL,
@@ -466,9 +466,9 @@ export const createSampleData = () => {
 
     // Cyber - Leads
     const cyberLead1 = businessAnalystService.create({
-      firstName: 'Benjamin',
-      lastName: 'Price',
-      email: 'benjamin.price@company.com',
+      firstName: 'Ismail',
+      lastName: 'Youssef',
+      email: 'ismail.youssef@company.com',
       employeeNo: 'EMP038',
       profession: 'Cyber',
       level: BALevel.LEAD,
@@ -478,9 +478,9 @@ export const createSampleData = () => {
     });
 
     const cyberLead2 = businessAnalystService.create({
-      firstName: 'Charlotte',
-      lastName: 'Ross',
-      email: 'charlotte.ross@company.com',
+      firstName: 'Mei-Lin',
+      lastName: 'Park',
+      email: 'meilin.park@company.com',
       employeeNo: 'EMP039',
       profession: 'Cyber',
       level: BALevel.LEAD,
@@ -491,9 +491,9 @@ export const createSampleData = () => {
 
     // Cyber - Seniors
     const cyberSenior1 = businessAnalystService.create({
-      firstName: 'William',
-      lastName: 'Cook',
-      email: 'william.cook@company.com',
+      firstName: 'Javon',
+      lastName: 'Jackson',
+      email: 'javon.jackson@company.com',
       employeeNo: 'EMP040',
       profession: 'Cyber',
       level: BALevel.SENIOR,
@@ -503,9 +503,9 @@ export const createSampleData = () => {
     });
 
     const cyberSenior2 = businessAnalystService.create({
-      firstName: 'Isabella',
-      lastName: 'Morgan',
-      email: 'isabella.morgan@company.com',
+      firstName: 'Sanaa',
+      lastName: 'Mohammed',
+      email: 'sanaa.mohammed@company.com',
       employeeNo: 'EMP041',
       profession: 'Cyber',
       level: BALevel.SENIOR,
@@ -516,9 +516,9 @@ export const createSampleData = () => {
 
     // Cyber - Intermediates
     businessAnalystService.create({
-      firstName: 'Mason',
-      lastName: 'Bell',
-      email: 'mason.bell@company.com',
+      firstName: 'Arjun',
+      lastName: 'Reddy',
+      email: 'arjun.reddy@company.com',
       employeeNo: 'EMP042',
       profession: 'Cyber',
       level: BALevel.INTERMEDIATE,
@@ -528,9 +528,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Ava',
-      lastName: 'Collins',
-      email: 'ava.collins@company.com',
+      firstName: 'Camila',
+      lastName: 'Gomez',
+      email: 'camila.gomez@company.com',
       employeeNo: 'EMP043',
       profession: 'Cyber',
       level: BALevel.INTERMEDIATE,
@@ -541,9 +541,9 @@ export const createSampleData = () => {
 
     // Cyber - Consultants
     businessAnalystService.create({
-      firstName: 'Liam',
-      lastName: 'Stewart',
-      email: 'liam.stewart@company.com',
+      firstName: 'Kwesi',
+      lastName: 'Boateng',
+      email: 'kwesi.boateng@company.com',
       employeeNo: 'EMP044',
       profession: 'Cyber',
       level: BALevel.CONSULTANT,
@@ -553,9 +553,9 @@ export const createSampleData = () => {
     });
 
     businessAnalystService.create({
-      firstName: 'Emma',
-      lastName: 'Watson',
-      email: 'emma.watson@company.com',
+      firstName: 'Rina',
+      lastName: 'Sato',
+      email: 'rina.sato@company.com',
       employeeNo: 'EMP045',
       profession: 'Cyber',
       level: BALevel.CONSULTANT,
