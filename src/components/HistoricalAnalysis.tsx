@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import { businessAnalystService } from '../services/businessAnalystService';
 import { reviewService } from '../services/reviewService';
 import { BusinessAnalyst, HistoricalTrend, PromotionReadiness, BALevel } from '../types';
+import { useCurrentUser } from '../hooks/useCurrentUser';
 import { cn } from '../utils/cn';
 import { formatDate } from '../utils/date';
-import { 
-  Users, 
-  Search, 
-  TrendingUp, 
-  TrendingDown, 
-  Minus, 
+import {
+  Users,
+  Search,
+  TrendingUp,
+  TrendingDown,
+  Minus,
   AlertTriangle,
   CheckCircle,
   Clock,
@@ -19,6 +20,7 @@ import {
 } from 'lucide-react';
 
 export function HistoricalAnalysis() {
+  const { currentUser, isIndividual, isPeople } = useCurrentUser();
   const [businessAnalysts, setBusinessAnalysts] = useState<BusinessAnalyst[]>([]);
   const [historicalTrends, setHistoricalTrends] = useState<HistoricalTrend[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,15 +31,26 @@ export function HistoricalAnalysis() {
 
   useEffect(() => {
     loadHistoricalData();
-  }, []);
+  }, [currentUser]);
 
   const loadHistoricalData = () => {
     setLoading(true);
     try {
-      const allBAs = businessAnalystService.getAll().filter(ba => ba.isActive);
-      setBusinessAnalysts(allBAs);
+      let scopedBAs: BusinessAnalyst[];
+      if (!currentUser) {
+        scopedBAs = [];
+      } else if (isPeople) {
+        scopedBAs = businessAnalystService.getAll().filter(ba => ba.isActive);
+      } else if (isIndividual) {
+        const me = businessAnalystService.getById(currentUser.businessAnalystId);
+        scopedBAs = me ? [me] : [];
+      } else {
+        // manager
+        scopedBAs = businessAnalystService.getReportingTree(currentUser.businessAnalystId).filter(ba => ba.isActive);
+      }
+      setBusinessAnalysts(scopedBAs);
 
-      const trends = allBAs.map(ba => reviewService.getHistoricalTrend(ba.id));
+      const trends = scopedBAs.map(ba => reviewService.getHistoricalTrend(ba.id));
       setHistoricalTrends(trends);
     } catch (error) {
       console.error('Failed to load historical data:', error);

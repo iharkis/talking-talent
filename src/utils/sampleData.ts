@@ -582,13 +582,6 @@ export const createSampleData = () => {
       year: 2024,
       deadline: nextQuarter,
       description: 'Quarterly review focusing on career development and promotion readiness',
-      professionSessions: [
-        { profession: 'Business Analysis', date: sessionDates.businessAnalysis },
-        { profession: 'Product', date: sessionDates.product },
-        { profession: 'Delivery', date: sessionDates.delivery },
-        { profession: 'Engineering', date: sessionDates.engineering },
-        { profession: 'Cyber', date: sessionDates.cyber }
-      ]
     });
 
     return { success: true, message: 'Sample data created successfully' };

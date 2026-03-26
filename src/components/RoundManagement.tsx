@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { talentRoundService } from '../services/talentRoundService';
-import { TalentRound, RoundStatus, CreateRoundRequest, RoundSummary, ProfessionSession } from '../types';
+import { reviewService } from '../services/reviewService';
+import { TalentRound, RoundStatus, CreateRoundRequest, RoundSummary } from '../types';
 import { formatDate, formatDateTime, formatDateForInput, getDaysUntilDeadline, isOverdue } from '../utils/date';
 import { cn } from '../utils/cn';
-import { Plus, Calendar, Play, Check, Clock, AlertTriangle, BarChart3 } from 'lucide-react';
+import { Plus, Calendar, Play, Check, Clock, AlertTriangle, BarChart3, Share2, Star } from 'lucide-react';
 
 export function RoundManagement() {
   const [rounds, setRounds] = useState<TalentRound[]>([]);
   const [roundSummaries, setRoundSummaries] = useState<Record<string, RoundSummary>>({});
+  const [ratedCounts, setRatedCounts] = useState<Record<string, number>>({});
   const [showForm, setShowForm] = useState(false);
   const [editingRound, setEditingRound] = useState<TalentRound | null>(null);
 
@@ -20,12 +22,15 @@ export function RoundManagement() {
     setRounds(allRounds);
 
     const summaries: Record<string, RoundSummary> = {};
+    const counts: Record<string, number> = {};
     allRounds.forEach(round => {
       if (round.status !== RoundStatus.DRAFT) {
         summaries[round.id] = talentRoundService.getRoundSummary(round.id);
+        counts[round.id] = reviewService.getByRound(round.id).filter(r => !!r.ttRating).length;
       }
     });
     setRoundSummaries(summaries);
+    setRatedCounts(counts);
   };
 
   const handleCreateOrUpdate = (data: CreateRoundRequest) => {
@@ -51,6 +56,13 @@ export function RoundManagement() {
       } catch (error) {
         alert(error instanceof Error ? error.message : 'Failed to complete round');
       }
+    }
+  };
+
+  const handleShareRatings = (id: string) => {
+    if (confirm('Share ratings with line managers? They will be able to see TT ratings for their direct reports.')) {
+      talentRoundService.shareRatings(id);
+      loadRounds();
     }
   };
 
@@ -119,13 +131,15 @@ export function RoundManagement() {
             const deadlineStatus = getDeadlineStatus(round.deadline, round.status);
             const summary = roundSummaries[round.id];
 
+            const ratedCount = ratedCounts[round.id] ?? 0;
+
             return (
               <div key={round.id} className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex-1">
-                      <div className="flex items-center mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900 mr-3">
+                      <div className="flex items-center mb-2 flex-wrap gap-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mr-1">
                           {round.name}
                         </h3>
                         <span className={cn(
@@ -135,9 +149,15 @@ export function RoundManagement() {
                           <StatusIcon className="w-3 h-3 mr-1" />
                           {round.status}
                         </span>
+                        {round.ratingsShared && (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                            <Share2 className="w-3 h-3 mr-1" />
+                            Ratings shared
+                          </span>
+                        )}
                         {deadlineStatus && (
                           <span className={cn(
-                            'ml-2 inline-flex items-center text-xs font-medium',
+                            'inline-flex items-center text-xs font-medium',
                             deadlineStatus.color
                           )}>
                             <deadlineStatus.icon className="w-3 h-3 mr-1" />
@@ -145,7 +165,7 @@ export function RoundManagement() {
                           </span>
                         )}
                       </div>
-                      
+
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
                         <div>
                           <span className="font-medium">Period:</span>
@@ -170,23 +190,9 @@ export function RoundManagement() {
                       {round.description && (
                         <p className="mt-3 text-sm text-gray-600">{round.description}</p>
                       )}
-
-                      {round.professionSessions && round.professionSessions.length > 0 && (
-                        <div className="mt-4 border-t pt-4">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-3">Profession Sessions</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                            {round.professionSessions.map((session) => (
-                              <div key={session.profession} className="flex items-center justify-between text-sm bg-gray-50 p-2 rounded">
-                                <span className="font-medium text-gray-700">{session.profession}</span>
-                                <span className="text-gray-600">{formatDate(session.date)}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
                     </div>
 
-                    <div className="flex space-x-2">
+                    <div className="flex flex-col items-end gap-2">
                       {round.status === RoundStatus.ACTIVE && summary && (
                         <button
                           onClick={() => handleComplete(round.id)}
@@ -199,6 +205,15 @@ export function RoundManagement() {
                           )}
                         >
                           Complete Round
+                        </button>
+                      )}
+                      {!round.ratingsShared && ratedCount > 0 && (
+                        <button
+                          onClick={() => handleShareRatings(round.id)}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 text-sm rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+                        >
+                          <Share2 className="h-3.5 w-3.5" />
+                          Share ratings
                         </button>
                       )}
                     </div>
@@ -215,9 +230,9 @@ export function RoundManagement() {
                           {summary.completionPercentage}% Complete
                         </span>
                       </div>
-                      
+
                       <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                        <div 
+                        <div
                           className={cn(
                             'h-2 rounded-full transition-all',
                             summary.completionPercentage >= 100 ? 'bg-green-500' :
@@ -228,14 +243,20 @@ export function RoundManagement() {
                         />
                       </div>
 
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                         <div className="text-center p-3 bg-gray-50 rounded-lg">
                           <div className="text-lg font-semibold text-gray-900">{summary.totalBAs}</div>
-                          <div className="text-gray-600">Total BAs</div>
+                          <div className="text-gray-600">Total</div>
                         </div>
                         <div className="text-center p-3 bg-green-50 rounded-lg">
                           <div className="text-lg font-semibold text-green-600">{summary.completedReviews}</div>
-                          <div className="text-gray-600">Completed</div>
+                          <div className="text-gray-600">Reviews done</div>
+                        </div>
+                        <div className="text-center p-3 bg-yellow-50 rounded-lg">
+                          <div className="text-lg font-semibold text-yellow-700 flex items-center justify-center gap-1">
+                            <Star className="h-4 w-4" />{ratedCount}
+                          </div>
+                          <div className="text-gray-600">Rated</div>
                         </div>
                         <div className="text-center p-3 bg-orange-50 rounded-lg">
                           <div className="text-lg font-semibold text-orange-600">{summary.pendingReviews}</div>
@@ -272,33 +293,13 @@ interface RoundFormProps {
 }
 
 function RoundForm({ round, onSubmit, onCancel }: RoundFormProps) {
-  const professions = ['Business Analysis', 'Product', 'Delivery', 'Engineering', 'Cyber'];
-
-  const getDefaultProfessionSessions = (): ProfessionSession[] => {
-    const nextMonth = new Date();
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
-
-    return professions.map(profession => ({
-      profession,
-      date: new Date(nextMonth)
-    }));
-  };
-
   const [formData, setFormData] = useState<CreateRoundRequest>({
     name: round?.name || '',
     quarter: round?.quarter || 'Q1',
     year: round?.year || new Date().getFullYear(),
     deadline: round?.deadline || new Date(),
     description: round?.description || '',
-    professionSessions: round?.professionSessions || getDefaultProfessionSessions()
   });
-
-  const updateProfessionDate = (profession: string, date: Date) => {
-    const updatedSessions = formData.professionSessions.map(session =>
-      session.profession === profession ? { ...session, date } : session
-    );
-    setFormData({ ...formData, professionSessions: updatedSessions });
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -384,25 +385,6 @@ function RoundForm({ round, onSubmit, onCancel }: RoundFormProps) {
             />
           </div>
 
-          <div className="border-t pt-4">
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Profession Session Dates</h4>
-            <div className="space-y-3">
-              {formData.professionSessions.map((session) => (
-                <div key={session.profession} className="grid grid-cols-2 gap-3 items-center">
-                  <label className="text-sm font-medium text-gray-700">
-                    {session.profession}
-                  </label>
-                  <input
-                    type="date"
-                    required
-                    value={formatDateForInput(session.date)}
-                    onChange={(e) => updateProfessionDate(session.profession, new Date(e.target.value))}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
         </form>
 
         <div className="px-6 py-4 border-t flex justify-end space-x-3">

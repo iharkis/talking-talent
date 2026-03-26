@@ -1,4 +1,4 @@
-import { Review, CreateReviewRequest, ReviewService, HistoricalTrend, PromotionReadiness } from '../types';
+import { Review, CreateReviewRequest, ReviewService, HistoricalTrend, PromotionReadiness, TTRating } from '../types';
 import { STORAGE_KEYS, saveToStorage, loadFromStorage, generateId } from '../utils/storage';
 import { validateReviewData } from '../utils/validation';
 
@@ -64,6 +64,8 @@ class ReviewServiceImpl implements ReviewService {
       generalNotes: data.generalNotes?.trim(),
       reviewNotes: undefined,
       recommendations: [],
+      feedbackNotes: undefined,
+      feedbackDelivered: false,
       isComplete: this.isReviewComplete(data),
       createdAt: now,
       updatedAt: now
@@ -137,6 +139,27 @@ class ReviewServiceImpl implements ReviewService {
     return this.reviews.find(
       review => review.businessAnalystId === baId && review.roundId === roundId
     ) || null;
+  }
+
+  markFeedbackDelivered(id: string): Review | null {
+    const index = this.reviews.findIndex(r => r.id === id);
+    if (index === -1) return null;
+    this.reviews[index] = {
+      ...this.reviews[index],
+      feedbackDelivered: true,
+      feedbackDeliveredAt: new Date(),
+      updatedAt: new Date(),
+    };
+    this.saveData();
+    return this.reviews[index];
+  }
+
+  updateTTOutcome(id: string, ttRating: TTRating | undefined, ttFeedbackNotes: string | undefined): Review | null {
+    const index = this.reviews.findIndex(r => r.id === id);
+    if (index === -1) return null;
+    this.reviews[index] = { ...this.reviews[index], ttRating, ttFeedbackNotes, updatedAt: new Date() };
+    this.saveData();
+    return this.reviews[index];
   }
 
   getHistoricalTrend(baId: string): HistoricalTrend {

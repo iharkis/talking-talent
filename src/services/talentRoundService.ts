@@ -12,7 +12,9 @@ class TalentRoundServiceImpl implements TalentRoundService {
   }
 
   private loadData(): void {
-    this.talentRounds = loadFromStorage<TalentRound>(STORAGE_KEYS.TALENT_ROUNDS);
+    const raw = loadFromStorage<TalentRound>(STORAGE_KEYS.TALENT_ROUNDS);
+    // Migrate older records that predate the ratingsShared field
+    this.talentRounds = raw.map(r => ({ ...r, ratingsShared: r.ratingsShared ?? false }));
   }
 
   private saveData(): void {
@@ -51,7 +53,7 @@ class TalentRoundServiceImpl implements TalentRoundService {
       createdBy: 'system',
       createdAt: now,
       description: data.description?.trim(),
-      professionSessions: data.professionSessions || []
+      ratingsShared: false,
     };
 
     this.talentRounds.push(newRound);
@@ -75,7 +77,6 @@ class TalentRoundServiceImpl implements TalentRoundService {
       year: updatedData.year,
       deadline: updatedData.deadline,
       description: updatedData.description,
-      professionSessions: updatedData.professionSessions || []
     });
 
     if (validationErrors.length > 0) {
@@ -85,7 +86,6 @@ class TalentRoundServiceImpl implements TalentRoundService {
     const updatedRound: TalentRound = {
       ...existingRound,
       ...data,
-      professionSessions: data.professionSessions || existingRound.professionSessions
     };
 
     this.talentRounds[roundIndex] = updatedRound;
@@ -133,6 +133,18 @@ class TalentRoundServiceImpl implements TalentRoundService {
 
     this.saveData();
     return this.talentRounds[roundIndex];
+  }
+
+  shareRatings(id: string): TalentRound | null {
+    const index = this.talentRounds.findIndex(r => r.id === id);
+    if (index === -1) return null;
+    this.talentRounds[index] = {
+      ...this.talentRounds[index],
+      ratingsShared: true,
+      ratingsSharedAt: new Date(),
+    };
+    this.saveData();
+    return this.talentRounds[index];
   }
 
   getActive(): TalentRound[] {

@@ -3,15 +3,8 @@ import { render, screen, fireEvent, waitFor } from '../test/test-utils';
 import { businessAnalystService } from '../services/businessAnalystService';
 import { talentRoundService } from '../services/talentRoundService';
 import { reviewService } from '../services/reviewService';
-import { BALevel, PromotionReadiness, ProfessionSession } from '../types';
+import { BALevel, PromotionReadiness } from '../types';
 
-const defaultProfessionSessions: ProfessionSession[] = [
-  { profession: 'Business Analysis', date: new Date('2025-12-01') },
-  { profession: 'Product', date: new Date('2025-12-05') },
-  { profession: 'Delivery', date: new Date('2025-12-10') },
-  { profession: 'Engineering', date: new Date('2025-12-15') },
-  { profession: 'Cyber', date: new Date('2025-12-20') }
-];
 
 // Mock all services to ensure clean state
 vi.mock('../utils/storage', () => ({
@@ -137,7 +130,6 @@ describe('Integration Tests', () => {
         year: 2025,
         deadline: new Date('2025-03-31'),
         description: 'Annual performance review',
-        professionSessions: defaultProfessionSessions
       };
 
       const newRound = talentRoundService.create(roundData);
@@ -179,7 +171,6 @@ describe('Integration Tests', () => {
         quarter: 'Q1',
         year: 2025,
         deadline: new Date('2025-03-31'),
-        professionSessions: defaultProfessionSessions
       });
 
       // Create reviews
@@ -238,7 +229,6 @@ describe('Integration Tests', () => {
         quarter: 'Q1',
         year: 2025,
         deadline: new Date('2025-03-31'),
-        professionSessions: defaultProfessionSessions
       });
 
       // Create review
@@ -291,7 +281,6 @@ describe('Integration Tests', () => {
         quarter: 'Q1',
         year: 2025,
         deadline: new Date('2025-03-31'),
-        professionSessions: defaultProfessionSessions
       });
 
       const round2 = talentRoundService.create({
@@ -299,7 +288,6 @@ describe('Integration Tests', () => {
         quarter: 'Q3',
         year: 2025,
         deadline: new Date('2025-09-30'),
-        professionSessions: defaultProfessionSessions
       });
 
       // Create reviews showing improvement over time
@@ -369,7 +357,6 @@ describe('Integration Tests', () => {
         quarter: 'Q1',
         year: 2025,
         deadline: new Date('2025-03-31'),
-        professionSessions: defaultProfessionSessions
       });
 
       expect(round.status).toBe('Active');

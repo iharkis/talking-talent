@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { dataExportService } from '../services/dataExportService';
 import { createSampleData } from '../utils/sampleData';
 import { STORAGE_KEYS } from '../utils/storage';
-import { Settings as SettingsIcon, Download, Upload, Database, Trash2, AlertTriangle } from 'lucide-react';
+import { businessAnalystService } from '../services/businessAnalystService';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import { BusinessAnalyst, UserRole } from '../types';
+import { Settings as SettingsIcon, Download, Upload, Database, Trash2, AlertTriangle, User } from 'lucide-react';
 
 export function Settings() {
   const [importData, setImportData] = useState('');
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [allBAs, setAllBAs] = useState<BusinessAnalyst[]>([]);
+  const { currentUser, setCurrentUser } = useCurrentUser();
+
+  useEffect(() => {
+    setAllBAs(businessAnalystService.getAll().filter(ba => ba.isActive));
+  }, []);
 
   const handleExport = () => {
     try {
@@ -242,6 +251,69 @@ export function Settings() {
               <Database className="h-4 w-4 mr-2" />
               Create Sample Data
             </button>
+          </div>
+        </div>
+
+        <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle">
+          <div className="px-6 py-4 border-b">
+            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+              <User className="h-5 w-5 mr-2" />
+              Current User (MVP Stub)
+            </h3>
+          </div>
+          <div className="p-6 space-y-4">
+            <p className="text-sm text-gray-600">
+              Select who you are and your role. This controls which team members you can see.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Person</label>
+                <select
+                  value={currentUser?.businessAnalystId || ''}
+                  onChange={(e) => {
+                    const id = e.target.value;
+                    if (!id) {
+                      setCurrentUser(null);
+                    } else {
+                      setCurrentUser({
+                        businessAnalystId: id,
+                        role: currentUser?.role || UserRole.INDIVIDUAL,
+                      });
+                    }
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">— Select person —</option>
+                  {allBAs.map(ba => (
+                    <option key={ba.id} value={ba.id}>
+                      {ba.firstName} {ba.lastName}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select
+                  value={currentUser?.role || UserRole.INDIVIDUAL}
+                  onChange={(e) => {
+                    if (currentUser) {
+                      setCurrentUser({ ...currentUser, role: e.target.value as UserRole });
+                    }
+                  }}
+                  disabled={!currentUser}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                >
+                  <option value={UserRole.INDIVIDUAL}>Individual (yourself only)</option>
+                  <option value={UserRole.MANAGER}>Manager (full reporting tree)</option>
+                  <option value={UserRole.PEOPLE}>People (everyone)</option>
+                </select>
+              </div>
+            </div>
+            {currentUser && (
+              <p className="text-sm text-green-700 bg-green-50 px-3 py-2 rounded-lg">
+                Viewing as: {allBAs.find(ba => ba.id === currentUser.businessAnalystId)?.firstName} — {currentUser.role}
+              </p>
+            )}
           </div>
         </div>
 

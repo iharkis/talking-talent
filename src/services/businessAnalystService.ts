@@ -128,6 +128,17 @@ class BusinessAnalystServiceImpl implements BusinessAnalystService {
     return this.businessAnalysts.filter(ba => ba.lineManagerId === managerId && ba.isActive);
   }
 
+  getReportingTree(managerId: string): BusinessAnalyst[] {
+    const result: BusinessAnalyst[] = [];
+    const queue = this.getDirectReports(managerId);
+    while (queue.length > 0) {
+      const ba = queue.shift()!;
+      result.push(ba);
+      queue.push(...this.getDirectReports(ba.id));
+    }
+    return result;
+  }
+
   private buildOrgChartNode(ba: BusinessAnalyst, allBAs: BusinessAnalyst[], depth: number): OrgChartNode {
     const children = allBAs
       .filter(child => child.lineManagerId === ba.id)

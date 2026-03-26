@@ -1,14 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { validateBAData, validateRoundData, validateReviewData } from './validation';
-import { BALevel, ProfessionSession } from '../types';
+import { BALevel } from '../types';
 
-const defaultProfessionSessions: ProfessionSession[] = [
-  { profession: 'Business Analysis', date: new Date('2025-12-01') },
-  { profession: 'Product', date: new Date('2025-12-05') },
-  { profession: 'Delivery', date: new Date('2025-12-10') },
-  { profession: 'Engineering', date: new Date('2025-12-15') },
-  { profession: 'Cyber', date: new Date('2025-12-20') }
-];
 
 describe('Validation Utils', () => {
   describe('validateBAData', () => {
@@ -105,7 +98,6 @@ describe('Validation Utils', () => {
         year: 2024,
         deadline: futureDate,
         description: 'Annual review round',
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(validData);
@@ -118,7 +110,6 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: futureDate,
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -131,7 +122,6 @@ describe('Validation Utils', () => {
         quarter: '',
         year: 2024,
         deadline: futureDate,
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -144,7 +134,6 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2010, // Too old
         deadline: futureDate,
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -157,7 +146,6 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2055,
         deadline: futureDate,
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -170,7 +158,6 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: null as any,
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -184,7 +171,6 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: pastDate,
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);
@@ -198,7 +184,6 @@ describe('Validation Utils', () => {
         quarter: 'Q4',
         year: 2024,
         deadline: today,
-        professionSessions: defaultProfessionSessions
       };
 
       const errors = validateRoundData(data);

@@ -2,7 +2,8 @@ export const STORAGE_KEYS = {
   BUSINESS_ANALYSTS: 'tt_business_analysts',
   TALENT_ROUNDS: 'tt_talent_rounds',
   REVIEWS: 'tt_reviews',
-  APP_CONFIG: 'tt_app_config'
+  APP_CONFIG: 'tt_app_config',
+  CURRENT_USER: 'tt_current_user'
 } as const;
 
 export const saveToStorage = <T>(key: string, data: T[]): void => {

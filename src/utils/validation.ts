@@ -50,28 +50,6 @@ export const validateRoundData = (data: CreateRoundRequest): string[] => {
     }
   }
 
-  // Validate profession sessions
-  if (!data.professionSessions || data.professionSessions.length === 0) {
-    errors.push('At least one profession session is required');
-  } else {
-    const professions = new Set<string>();
-
-    data.professionSessions.forEach((session, index) => {
-      if (!session.profession || !session.profession.trim()) {
-        errors.push(`Profession session ${index + 1}: Profession name is required`);
-      } else {
-        if (professions.has(session.profession)) {
-          errors.push(`Duplicate profession session: ${session.profession}`);
-        }
-        professions.add(session.profession);
-      }
-
-      if (!session.date) {
-        errors.push(`Profession session ${session.profession || index + 1}: Date is required`);
-      }
-    });
-  }
-
   return errors;
 };
 

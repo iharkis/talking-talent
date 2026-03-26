@@ -16,6 +16,14 @@ export const RoundStatus = {
 
 export type RoundStatus = typeof RoundStatus[keyof typeof RoundStatus];
 
+export const TTRating = {
+  NOT_MEETING: 'Not Meeting Expectations',
+  MEETING: 'Meeting Expectations',
+  EXCEEDING: 'Exceeding Expectations',
+} as const;
+
+export type TTRating = typeof TTRating[keyof typeof TTRating];
+
 export const PromotionReadiness = {
   READY: 'Ready',
   NEAR_READY: 'Near Ready',
@@ -41,11 +49,6 @@ export interface BusinessAnalyst {
   updatedAt: Date;
 }
 
-export interface ProfessionSession {
-  profession: string;
-  date: Date;
-}
-
 export interface TalentRound {
   id: string;
   name: string;
@@ -57,7 +60,8 @@ export interface TalentRound {
   createdAt: Date;
   completedAt?: Date;
   description?: string;
-  professionSessions: ProfessionSession[];
+  ratingsShared: boolean;
+  ratingsSharedAt?: Date;
 }
 
 export interface Review {
@@ -87,6 +91,11 @@ export interface Review {
   generalNotes?: string;
   reviewNotes?: string;
   recommendations?: string[];
+  feedbackNotes?: string;
+  feedbackDelivered: boolean;
+  feedbackDeliveredAt?: Date;
+  ttRating?: TTRating;
+  ttFeedbackNotes?: string;
   isComplete: boolean;
   completedAt?: Date;
   createdAt: Date;
@@ -111,7 +120,6 @@ export interface CreateRoundRequest {
   year: number;
   deadline: Date;
   description?: string;
-  professionSessions: ProfessionSession[];
 }
 
 export interface CreateReviewRequest {
@@ -171,6 +179,19 @@ export interface HistoricalTrend {
   trend: 'Improving' | 'Stable' | 'Declining' | 'New';
 }
 
+export const UserRole = {
+  INDIVIDUAL: 'individual',   // sees direct reports only
+  MANAGER: 'manager',         // sees full reporting tree
+  PEOPLE: 'people',           // sees everyone
+} as const;
+
+export type UserRole = typeof UserRole[keyof typeof UserRole];
+
+export interface CurrentUser {
+  businessAnalystId: string;
+  role: UserRole;
+}
+
 export interface OrgChartNode {
   ba: BusinessAnalyst;
   children: OrgChartNode[];
@@ -186,6 +207,7 @@ export interface BusinessAnalystService {
   getOrgChart(): OrgChartNode[];
   getByLevel(level: BALevel): BusinessAnalyst[];
   getDirectReports(managerId: string): BusinessAnalyst[];
+  getReportingTree(managerId: string): BusinessAnalyst[];
 }
 
 export interface TalentRoundService {
@@ -195,6 +217,7 @@ export interface TalentRoundService {
   update(id: string, data: Partial<CreateRoundRequest>): TalentRound | null;
   activate(id: string): TalentRound | null;
   complete(id: string): TalentRound | null;
+  shareRatings(id: string): TalentRound | null;
   getActive(): TalentRound[];
   getRoundSummary(id: string): RoundSummary;
   getUpcomingDeadlines(): { roundId: string; roundName: string; deadline: Date; daysRemaining: number }[];

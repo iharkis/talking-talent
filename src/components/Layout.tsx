@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { cn } from '../utils/cn';
-import { Users, Calendar, ClipboardList, BarChart3, Settings, Menu, X, Play } from 'lucide-react';
+import { Users, Calendar, BarChart3, Settings, Menu, X, Home, Presentation, MessageSquare } from 'lucide-react';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import { businessAnalystService } from '../services/businessAnalystService';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -18,38 +20,45 @@ interface NavSection {
   items: NavItem[];
 }
 
-const navSections: NavSection[] = [
-  {
-    items: [
-      { name: 'Dashboard', icon: BarChart3, path: '/dashboard' }
-    ]
-  },
-  {
-    title: 'Planning & Setup',
-    items: [
-      { name: 'Consultants', icon: Users, path: '/bas' },
-      { name: 'Talking Talent Rounds', icon: Calendar, path: '/rounds' }
-    ]
-  },
-  {
-    title: 'Conversations',
-    items: [
-      { name: 'Talking Talent Session', icon: Play, path: '/session' },
-      { name: 'Conversations', icon: ClipboardList, path: '/reviews' }
-    ]
-  },
-  {
-    title: 'History & Settings',
-    items: [
-      { name: 'History', icon: BarChart3, path: '/history' },
-      { name: 'Settings', icon: Settings, path: '/settings' }
-    ]
-  }
-];
+function buildNavSections(isPeople: boolean): NavSection[] {
+  return [
+    {
+      items: [
+        { name: 'My Team', icon: Home, path: '/dashboard' },
+        { name: 'My Feedback', icon: MessageSquare, path: '/feedback' },
+      ]
+    },
+    ...(isPeople ? [{
+      title: 'Admin',
+      items: [
+        { name: 'Consultants', icon: Users, path: '/consultants' },
+        { name: 'Talking Talent Rounds', icon: Calendar, path: '/rounds' },
+        { name: 'Session View', icon: Presentation, path: '/session' },
+      ]
+    }] : []),
+    {
+      title: 'Insights',
+      items: [
+        { name: 'History', icon: BarChart3, path: '/history' },
+      ]
+    },
+    {
+      title: 'Account',
+      items: [
+        { name: 'Settings', icon: Settings, path: '/settings' }
+      ]
+    }
+  ];
+}
 
 export function Layout({ children }: LayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const { currentUser, isPeople } = useCurrentUser();
+  const navSections = buildNavSections(isPeople);
+  const currentUserBA = currentUser
+    ? businessAnalystService.getById(currentUser.businessAnalystId)
+    : null;
 
   useEffect(() => {
     const handlePathChange = () => {
@@ -148,15 +157,21 @@ export function Layout({ children }: LayoutProps) {
               <Menu className="h-5 w-5" />
             </button>
             
-            <div className="flex items-center space-x-4">
-              <div className="text-sm text-hippo-text/70 font-medium">
-                {new Date().toLocaleDateString('en-GB', { 
-                  weekday: 'long', 
-                  year: 'numeric', 
-                  month: 'long', 
-                  day: 'numeric' 
-                })}
-              </div>
+            <div className="flex items-center space-x-4 ml-auto">
+              {currentUserBA ? (
+                <div className="flex items-center gap-2 text-sm">
+                  <div className="h-8 w-8 rounded-full bg-hippo-dark-blue/10 flex items-center justify-center text-hippo-dark-blue font-semibold text-xs">
+                    {currentUserBA.firstName[0]}{currentUserBA.lastName[0]}
+                  </div>
+                  <span className="text-hippo-text/70 font-medium hidden sm:block">
+                    {currentUserBA.firstName} {currentUserBA.lastName}
+                  </span>
+                </div>
+              ) : (
+                <a href="/settings" className="text-sm text-orange-600 font-medium hover:text-orange-700">
+                  Set user in Settings
+                </a>
+              )}
             </div>
           </div>
         </header>

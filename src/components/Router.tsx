@@ -1,16 +1,30 @@
 import { useState, useEffect } from 'react';
-import { Dashboard } from './Dashboard';
+import { MyTeam } from './MyTeam';
 import { BAManagement } from './BAManagement';
 import { RoundManagement } from './RoundManagement';
 import { ReviewEntry } from './ReviewEntry';
-import { SessionMode } from './SessionMode';
 import { Settings } from './Settings';
 import { HistoricalAnalysis } from './HistoricalAnalysis';
+import { SessionView } from './SessionView';
+import { MyFeedback } from './MyFeedback';
+import { useCurrentUser } from '../hooks/useCurrentUser';
+import { ShieldOff } from 'lucide-react';
 
-type Route = 'dashboard' | 'bas' | 'rounds' | 'reviews' | 'session' | 'history' | 'settings';
+type Route = 'dashboard' | 'consultants' | 'rounds' | 'reviews' | 'session' | 'feedback' | 'history' | 'settings';
+
+function AccessDenied() {
+  return (
+    <div className="bg-hippo-white rounded-hippo-subtle shadow-hippo-subtle p-12 text-center">
+      <ShieldOff className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+      <h3 className="text-sm font-medium text-hippo-dark-text">Access restricted</h3>
+      <p className="mt-1 text-sm text-hippo-dark-text/60">You don't have permission to view this page.</p>
+    </div>
+  );
+}
 
 export function Router() {
   const [currentRoute, setCurrentRoute] = useState<Route>('dashboard');
+  const { isPeople } = useCurrentUser();
 
   useEffect(() => {
     const handlePopState = () => {
@@ -44,21 +58,23 @@ export function Router() {
   const renderComponent = () => {
     switch (currentRoute) {
       case 'dashboard':
-        return <Dashboard />;
-      case 'bas':
-        return <BAManagement />;
+        return <MyTeam />;
+      case 'consultants':
+        return isPeople ? <BAManagement /> : <AccessDenied />;
       case 'rounds':
-        return <RoundManagement />;
+        return isPeople ? <RoundManagement /> : <AccessDenied />;
+      case 'session':
+        return isPeople ? <SessionView /> : <AccessDenied />;
+      case 'feedback':
+        return <MyFeedback />;
       case 'reviews':
         return <ReviewEntry />;
-      case 'session':
-        return <SessionMode />;
       case 'history':
         return <HistoricalAnalysis />;
       case 'settings':
         return <Settings />;
       default:
-        return <Dashboard />;
+        return <MyTeam />;
     }
   };
 
